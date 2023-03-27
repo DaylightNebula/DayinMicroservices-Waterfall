@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Initial commit" />
+    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Version 1.0 todolist">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Todolist.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todolist.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Microservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Microservice.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,6 +56,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -58,6 +65,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2NbdiFlTYXmJZUrVaqBH3HpkSeV" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -70,9 +80,19 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "last_opened_file_path": "C:/javadev/WaterfallMicroservices/settings.gradle.kts"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="waterfall.microservices" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -89,11 +109,19 @@
       <option name="project" value="LOCAL" />
       <updated>1679939115265</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Version 1.0 todolist">
+      <created>1679949907375</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1679949907375</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Version 1.0 todolist" />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 1.0 todolist" />
   </component>
 </project>

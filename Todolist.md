@@ -12,6 +12,7 @@
 
 ========== Waterfall Service ==========
 - [ ] Plugin for waterfall
+- [ ] Command to run endpoints
 - [ ] Endpoint: get player info (by name or uuid)
 - [ ] Endpoint: move player
 - [ ] Endpoint: set initial node (this is the node that players initially connect too, and this is the fallback server)
