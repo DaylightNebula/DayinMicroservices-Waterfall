@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Version 1.0 todolist">
+      <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Requester.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Tester.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Todolist.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todolist.md" afterDir="false" />
@@ -57,6 +59,8 @@
       <list>
         <option value="Kotlin Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Kotlin File" />
+        <option value="Kotlin Object" />
       </list>
     </option>
   </component>
@@ -82,7 +86,8 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "last_opened_file_path": "C:/javadev/WaterfallMicroservices/settings.gradle.kts"
+    "last_opened_file_path": "C:/javadev/WaterfallMicroservices/settings.gradle.kts",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -92,6 +97,20 @@
     <key name="CreateTestDialog.RecentsKey">
       <recent name="waterfall.microservices" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="TesterKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="waterfall.microservices.TesterKt" />
+      <module name="Waterfall-Microservices.Waterfall-Microservices-Core.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.TesterKt" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
