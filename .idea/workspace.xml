@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Version 1.0 todolist">
+    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Most of microservice stuff">
       <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Requester.kt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Tester.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
@@ -141,6 +141,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Version 1.0 todolist" />
-    <option name="LAST_COMMIT_MESSAGE" value="Version 1.0 todolist" />
+    <MESSAGE value="Most of microservice stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Most of microservice stuff" />
   </component>
 </project>
