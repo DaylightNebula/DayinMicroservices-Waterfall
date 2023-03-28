@@ -23,15 +23,3 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("ch.qos.logback:logback-classic:1.4.6")
 }
-
-sourceSets {
-    main {
-        kotlin {
-            srcDirs("src")
-        }
-    }
-}
-
-tasks.test {
-    useJUnitPlatform()
-}

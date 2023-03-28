@@ -3,3 +3,5 @@
 /gradlew
 /gradlew.bat
 /.gradle/
+/Waterfall-Microservices-Core/build/
+/Waterfall-Microservices-Waterfall/build/

@@ -1,6 +1,5 @@
-package waterfall.microservices
-
 import org.json.JSONObject
+import waterfall.microservices.Microservice
 import java.lang.Thread.sleep
 
 fun main() {
