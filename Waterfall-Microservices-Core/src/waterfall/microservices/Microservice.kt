@@ -30,9 +30,6 @@ class Microservice(
     // this is used instead of ktor routing so that errors can be handled
     private val endpoints: HashMap<String, (json: JSONObject) -> JSONObject> = hashMapOf(),
 
-    // if true, the server will close when the main thread does
-    private val autoShutdown: Boolean = false,
-
     // multicast socket info, used for broadcasting service create and shutdown
     private val multicastAddress: InetAddress = InetAddress.getByName("224.0.0.200"),
     private val multicastPort: Int = 3000,
@@ -42,11 +39,18 @@ class Microservice(
     private val logger: KLogger = KotlinLogging.logger("Node ${name.ifBlank { uuid.toString() }}"),
 ): Thread() {
 
+    lateinit var server: NettyApplicationEngine
+
+    // broadcast checker, runs once per second, sees if any new threads where created or destroyed by listening to the multicast group packets
+    private val broadcastChecker = loopingThread(1000) {
+//        logger.info { "Time - ${System.currentTimeMillis()}" }
+    }
+
     // just start the server on this thread
     override fun run() {
         setupPort()
         setupDefaults()
-        embeddedServer(Netty, port = 8080, module = module).start(wait = !autoShutdown)
+        server = embeddedServer(Netty, port = 8080, module = module).start(wait = false)
     }
 
     // function that finds an open port if necessary
@@ -105,5 +109,12 @@ class Microservice(
             }
         }
         logger.info("Setup finished")
+    }
+
+    // function that stops everything
+    fun dispose() {
+        broadcastChecker.dispose()
+        server.stop(1000, 1000)
+        super.join()
     }
 }
