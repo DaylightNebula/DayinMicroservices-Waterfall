@@ -13,6 +13,9 @@ fun main() {
     service2.start()
 
     sleep(2000)
+    service2.dispose(hidden = true)
+
+    sleep(1000)
     service1.request("test2", "info", JSONObject()) { println("Request $it") }
 
 //    sleep(250)

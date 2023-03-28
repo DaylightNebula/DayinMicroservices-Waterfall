@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Looping Thread">
+    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Finished microservices">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Todolist.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todolist.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Microservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Microservice.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Requester.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Requester.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Tester.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/waterfall/microservices/Tester.kt" afterDir="false" />
@@ -154,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679978038983</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Finished microservices">
+      <created>1679981510887</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1679981510887</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -162,6 +168,7 @@
     <MESSAGE value="Version 1.0 todolist" />
     <MESSAGE value="Most of microservice stuff" />
     <MESSAGE value="Looping Thread" />
-    <option name="LAST_COMMIT_MESSAGE" value="Looping Thread" />
+    <MESSAGE value="Finished microservices" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished microservices" />
   </component>
 </project>

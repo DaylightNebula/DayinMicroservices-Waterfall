@@ -106,7 +106,7 @@ class Microservice(
     fun request(target: UUID, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit)
         { request(otherServices.values.firstOrNull { it.uuid == uuid } ?: return, endpoint, json, onComplete) }
     private fun request(target: OtherMicroservice, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit) {
-        Requester.rawRequest("http://localhost:${target.port}/$endpoint", json, onComplete)
+        Requester.rawRequest(logger, "http://localhost:${target.port}/$endpoint", json, onComplete)
     }
 
     // function that sends a byte array to a given socket
@@ -196,10 +196,11 @@ class Microservice(
     }
 
     // function that stops everything
-    fun dispose() {
-        broadcastPacket(getClosePacket().toString(0).toByteArray())
+    fun dispose(hidden: Boolean = false) {
+        if (!hidden) broadcastPacket(getClosePacket().toString(0).toByteArray())
         broadcastChecker.dispose()
         server.stop(1000, 1000)
+        logger.info { "Shutdown $name, hidden = $hidden" }
         super.join()
     }
 }
