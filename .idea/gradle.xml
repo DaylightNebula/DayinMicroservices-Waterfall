@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Waterfall-Microservices-Core" />
             <option value="$PROJECT_DIR$/Waterfall-Microservices-Node" />
+            <option value="$PROJECT_DIR$/Waterfall-Microservices-NodeManager" />
             <option value="$PROJECT_DIR$/Waterfall-Microservices-Waterfall" />
           </set>
         </option>

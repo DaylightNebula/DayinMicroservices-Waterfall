@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Some file restructuring and setup for making waterfall service">
-      <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/NodePlugin.kt" afterDir="false" />
+    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Updated gitignore">
+      <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,35 +39,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
-                <item name="Waterfall-Microservices-Core" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
-                <item name="Waterfall-Microservices-Core" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
-                <item name="Waterfall-Microservices-Waterfall" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
-                <item name="Waterfall-Microservices-Waterfall" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
-                <item name="Waterfall-Microservices-Waterfall" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -81,8 +50,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Kotlin Object" />
         <option value="Kotlin File" />
+        <option value="Kotlin Object" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -110,22 +79,26 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "jdk.selected.JAVA_MODULE": "corretto-18",
-    "last_opened_file_path": "C:/javadev/WaterfallMicroservices/settings.gradle.kts",
+    "last_opened_file_path": "D:/javadev/Waterfall-Microservices/templates/hub",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\javadev\Waterfall-Microservices\templates\hub" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\javadev\Waterfall-Microservices\templates\hub" />
       <recent name="D:\javadev\Waterfall-Microservices\Waterfall-Microservices-Core\src\test\kotlin" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="waterfall.microservices" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]">
+  <component name="RunManager" selected="Kotlin.NodeManagerKt">
     <configuration name="Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -147,6 +120,13 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="NodeManagerKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="waterfall.microservices.nodemanager.NodeManagerKt" />
+      <module name="Waterfall-Microservices.Waterfall-Microservices-NodeManager.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TesterKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="TesterKt" />
       <module name="Waterfall-Microservices.Waterfall-Microservices-Core.main" />
@@ -156,6 +136,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.NodeManagerKt" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]" />
         <item itemvalue="Kotlin.TesterKt" />
       </list>
@@ -226,7 +207,21 @@
       <option name="project" value="LOCAL" />
       <updated>1679983346734</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Created all necessary gradle modules and updated their dependencies as necessary">
+      <created>1679984360453</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679984360453</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updated gitignore">
+      <created>1679984391461</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679984391461</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -237,6 +232,8 @@
     <MESSAGE value="Finished microservices" />
     <MESSAGE value="Timeouts" />
     <MESSAGE value="Some file restructuring and setup for making waterfall service" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some file restructuring and setup for making waterfall service" />
+    <MESSAGE value="Created all necessary gradle modules and updated their dependencies as necessary" />
+    <MESSAGE value="Updated gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated gitignore" />
   </component>
 </project>
