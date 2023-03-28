@@ -2,10 +2,10 @@
 - [x] Create endpoints by using a list of callbacks that are passed to service on create
 - [x] Each endpoint should take in a json object as a request
 - [x] Each endpoint should return a json object as a result, this will be null if there is an error or failure
-- [ ] Simple way of creating a threaded update loop
+- [x] Simple way of creating a threaded update loop
 - [x] Simple method of making a request to another service or self
 - [x] Auto assign a port to each microservice if a port is not assigned to the microservice
-- [ ] Auto find other active services
+- [x] Auto find other active services
 - [x] Each service should have an endpoint for path "/" to function as a ping, can be overriden
 - [x] Each service should have another overrideable endpoint to get service info on path "/info"
 - [X] UUID, that can optionally be specified, this should also work to identify a service

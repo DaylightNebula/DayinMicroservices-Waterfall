@@ -4,9 +4,18 @@ import org.json.JSONObject
 import java.lang.Thread.sleep
 
 fun main() {
-    val service = Microservice("test")
-    service.start()
+    val service1 = Microservice("test1", port = 8080)
+    service1.start()
 
-    println("Sending test request...")
-    Requester.rawRequest("http://localhost:8080/", JSONObject(), onComplete = { println("Response: ${it?.toString()}") })
+    sleep(1000)
+
+    val service2 = Microservice("test2", port = 8081)
+    service2.start()
+
+    sleep(2000)
+    service1.request("test2", "info", JSONObject()) { println("Request $it") }
+
+//    sleep(250)
+//    println("Sending test request...")
+//    Requester.rawRequest("http://localhost:8080/", JSONObject(), onComplete = { println("Response: ${it?.toString()}") })
 }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import kotlin.concurrent.thread
 
-object Requester {
+internal object Requester {
 
     private fun rawGet(address: String, builder: HttpRequestBuilder.() -> Unit, onComplete: (json: String?) -> Unit) {
         // start a thread to run the request async

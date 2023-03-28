@@ -9,12 +9,15 @@ import mu.KLogger
 import mu.KotlinLogging
 import org.json.JSONObject
 import org.json.JSONArray
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.lang.Thread
+import java.net.DatagramPacket
+import java.net.DatagramSocket
 import java.net.InetAddress
+import java.net.InetSocketAddress
 import java.net.MulticastSocket
+import java.net.NetworkInterface
 import java.net.ServerSocket
+import java.nio.ByteBuffer
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -39,18 +42,99 @@ class Microservice(
     private val logger: KLogger = KotlinLogging.logger("Node ${name.ifBlank { uuid.toString() }}"),
 ): Thread() {
 
-    lateinit var server: NettyApplicationEngine
+    // server stuff
+    private lateinit var server: NettyApplicationEngine
+
+    // other services
+    private val otherServices = hashMapOf<String, OtherMicroservice>()
 
     // broadcast checker, runs once per second, sees if any new threads where created or destroyed by listening to the multicast group packets
     private val broadcastChecker = loopingThread(1000) {
-//        logger.info { "Time - ${System.currentTimeMillis()}" }
+        // read packet length
+        val sizeBuffer = ByteArray(4)
+        val sizePacket = DatagramPacket(sizeBuffer, 4)
+        multicastSocket.receive(sizePacket)
+
+        // read packet
+        val buffer = ByteArray(ByteBuffer.wrap(sizeBuffer).int)
+        val packet = DatagramPacket(buffer, buffer.size)
+        multicastSocket.receive(packet)
+
+        // convert packet to json, cancel if json could not be read
+        val json = try { JSONObject(String(packet.data)) } catch (ex: Exception) { ex.printStackTrace(); return@loopingThread }
+
+        // handle join and close
+        when (val status = json.optString("status") ?: "NOT_GIVEN") {
+            "join" -> {
+                // make sure new service is not a new service
+                val servName = json.getString("name")
+                if (servName != name && !otherServices.containsKey(servName)) joinServices(servName, OtherMicroservice(json))
+            }
+            "close" -> {
+                // remove service
+                otherServices.remove(json.getString("name"))
+            }
+            else -> throw IllegalArgumentException("Unknown status: $status")
+        }
+    }
+
+    private fun joinServices(name: String, otherService: OtherMicroservice) {
+        // save service
+        otherServices[name] = otherService
+
+        // send it a join packet
+        broadcastPacket(getJoinPacket().toString(0).toByteArray())
     }
 
     // just start the server on this thread
     override fun run() {
+        // finish setting up sockets
+        multicastSocket.joinGroup(InetSocketAddress(multicastAddress, multicastPort), NetworkInterface.getByName("bge0"))
+
+        // create microservice server and endpoints
         setupPort()
         setupDefaults()
-        server = embeddedServer(Netty, port = 8080, module = module).start(wait = false)
+        server = embeddedServer(Netty, port = port, module = module).start(wait = false)
+
+        // broadcast join packet
+        broadcastPacket(getJoinPacket().toString(0).toByteArray())
+    }
+
+    // make request to services
+    fun request(target: String, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit)
+        { request(otherServices[target] ?: return, endpoint, json, onComplete) }
+    fun request(target: UUID, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit)
+        { request(otherServices.values.firstOrNull { it.uuid == uuid } ?: return, endpoint, json, onComplete) }
+    private fun request(target: OtherMicroservice, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit) {
+        Requester.rawRequest("http://localhost:${target.port}/$endpoint", json, onComplete)
+    }
+
+    // function that sends a byte array to a given socket
+    private fun broadcastPacket(data: ByteArray) {
+        val socket = DatagramSocket()
+        socket.broadcast = true
+        val sizeBuffer = ByteBuffer.allocate(4).putInt(data.size).array()
+        socket.send(DatagramPacket(sizeBuffer, 4, multicastAddress, multicastPort))
+        socket.send(DatagramPacket(data, data.size, multicastAddress, multicastPort))
+        socket.close()
+    }
+
+    // function that creates service join packet
+    private lateinit var cachedJoinPacket: JSONObject
+    private fun getJoinPacket(): JSONObject {
+        if (!this::cachedJoinPacket.isInitialized)
+            cachedJoinPacket = (endpoints["info"]?.let { it(JSONObject()) } ?: JSONObject())
+                .put("status", "join")
+                .put("port", port)
+        return cachedJoinPacket
+    }
+
+    // function that creates service close packet
+    private lateinit var cachedClosePacket: JSONObject
+    private fun getClosePacket(): JSONObject {
+        if (!this::cachedClosePacket.isInitialized)
+            cachedClosePacket = (endpoints["info"]?.let { it(JSONObject()) } ?: JSONObject()).put("status", "close")
+        return cachedClosePacket
     }
 
     // function that finds an open port if necessary
@@ -113,8 +197,17 @@ class Microservice(
 
     // function that stops everything
     fun dispose() {
+        broadcastPacket(getClosePacket().toString(0).toByteArray())
         broadcastChecker.dispose()
         server.stop(1000, 1000)
         super.join()
     }
+}
+
+data class OtherMicroservice(val name: String, val uuid: UUID, val port: Int) {
+    constructor(json: JSONObject): this(
+        json.getString("name"),
+        UUID.fromString(json.getString("uuid")),
+        json.getInt("port")
+    )
 }
