@@ -5,3 +5,5 @@
 /.gradle/
 /Waterfall-Microservices-Core/build/
 /Waterfall-Microservices-Waterfall/build/
+/Waterfall-Microservices-Node/build/
+/Waterfall-Microservices-NodeManager/build/
