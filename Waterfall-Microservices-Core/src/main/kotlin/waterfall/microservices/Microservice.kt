@@ -209,10 +209,11 @@ class Microservice(
     }
 }
 
-data class OtherMicroservice(val name: String, val uuid: UUID, val port: Int) {
+data class OtherMicroservice(val name: String, val uuid: UUID, val port: Int, val endpoints: List<String>) {
     constructor(json: JSONObject): this(
         json.getString("name"),
         UUID.fromString(json.getString("uuid")),
-        json.getInt("port")
+        json.getInt("port"),
+        json.getJSONArray("endpoints").map { it as String }
     )
 }
