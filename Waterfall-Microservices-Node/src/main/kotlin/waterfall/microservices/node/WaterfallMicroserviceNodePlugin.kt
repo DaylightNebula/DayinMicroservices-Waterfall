@@ -13,7 +13,7 @@ import waterfall.microservices.Microservice
 import java.io.File
 import java.util.*
 
-class NodePlugin: JavaPlugin(), Listener {
+class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
     // list of endpoints
     val endpoints = hashMapOf<String, (json: JSONObject) -> JSONObject>(
         "info" to {
