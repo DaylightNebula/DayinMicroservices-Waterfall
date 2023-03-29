@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "1.8.20-RC2"
+
+    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 group = "waterfall.microservices"
@@ -25,10 +27,18 @@ dependencies {
     implementation("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 
     // testing
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+tasks.getByName<Jar>("jar") {
+    destinationDirectory.set(file("../testserver/plugins"))
+}
+
+tasks.getByName<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    destinationDirectory.set(file("../testserver/plugins"))
 }

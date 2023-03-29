@@ -10,3 +10,5 @@
 /templates.json
 /templates/
 /instances/
+/testserver/
+/Waterfall-Microservices-CLIInterface/build/

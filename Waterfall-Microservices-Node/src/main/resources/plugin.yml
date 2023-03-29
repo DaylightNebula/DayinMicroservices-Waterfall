@@ -1,0 +1,3 @@
+name: Waterfall_Microservices_Node_Plugin
+version: 0.0.1
+main: waterfall.microservices.node.WaterfallMicroserviceNodePlugin

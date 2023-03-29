@@ -102,7 +102,7 @@ fun runCommand() {
             println("Port: ${targetService.port}")
             println("Endpoints: ${targetService.endpoints}")
         }
-        "services" -> println("Current services: ${service.getOtherServices()}")
+        "services" -> println("Current services: ${service.getOtherServices().map { it.name }}")
         "stop" -> running = false
         else -> println("Invalid/unknown command \"$command\"")
     }

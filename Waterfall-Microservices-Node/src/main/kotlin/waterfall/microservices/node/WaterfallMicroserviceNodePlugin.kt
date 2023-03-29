@@ -48,6 +48,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
     // create microservice on start
     override fun onEnable() {
         service = Microservice("node-${rootDir.name}", endpoints = endpoints)
+        service.start()
     }
 
     // close node service when the plugin shuts down

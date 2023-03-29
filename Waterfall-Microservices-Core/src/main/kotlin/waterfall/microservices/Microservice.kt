@@ -55,9 +55,10 @@ class Microservice(
         val sizeBuffer = ByteArray(4)
         val sizePacket = DatagramPacket(sizeBuffer, 4)
         multicastSocket.receive(sizePacket)
+        val numBytes = ByteBuffer.wrap(sizeBuffer).int
 
         // read packet
-        val buffer = ByteArray(ByteBuffer.wrap(sizeBuffer).int)
+        val buffer = ByteArray(numBytes)
         val packet = DatagramPacket(buffer, buffer.size)
         multicastSocket.receive(packet)
 
