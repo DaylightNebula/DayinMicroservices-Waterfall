@@ -47,6 +47,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
 
     // create microservice on start
     override fun onEnable() {
+        Bukkit.getPluginManager().registerEvents(this, this)
         service = Microservice("node-${rootDir.name}", endpoints = endpoints)
         service.start()
     }
