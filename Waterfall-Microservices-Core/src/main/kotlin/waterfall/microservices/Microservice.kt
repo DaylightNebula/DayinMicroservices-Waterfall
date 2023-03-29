@@ -25,7 +25,7 @@ import kotlin.collections.HashMap
 class Microservice(
     // name and id for the service, these are used to identify the
     private val name: String,
-    private val uuid: UUID = UUID.randomUUID(),
+    val uuid: UUID = UUID.randomUUID(),
 
     // port of this service, if zero, a port will be found automatically
     private var port: Int = 0,

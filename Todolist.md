@@ -45,15 +45,13 @@
   - "shutdown if no players": boolean, if true, a node will be closed if it has no players.
   - "max players for merge": int, if greater than 0, if a node stays at or below the given number of players, all players will be moved to another node with this template if it has space.
   - "min number nodes": int, the minimum number of nodes required for this template
-  - "default": boolean, if true, a node with this template will be the 
+  - "default": boolean, if true, a node with this template can be a initial node
 
 =========== Node Plugin ===========
-- [ ] When a player joins or leaves, update the node service
-- [ ] When node starts or shuts down, update the node service
-- [ ] Allow any plugin that depends on this plugin to add endpoints (only in onLoad since service will not be started yet), and request endpoints
-- [ ] Endpoint: Get player info
+- [x] When a player joins or leaves, update any service with a player join or quit endpoints
+- [x] Allow any plugin that depends on this plugin to add endpoints (only in onLoad since service will not be started yet), and request endpoints
+- [x] Endpoint: Get player info
   - Return player info like inventory, health, potion effects, etc
-- [ ] Endpoint: Set player info
-  - Optionally set any info given in the "get player info" endpoint
-- [ ] Endpoint: Info override
+- [x] Endpoint: Info override
   - Add information like directory, active players, and active plugins
+- [x] Endpoint: Get all players
