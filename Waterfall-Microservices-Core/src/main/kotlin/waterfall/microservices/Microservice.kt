@@ -19,6 +19,7 @@ import java.net.NetworkInterface
 import java.net.ServerSocket
 import java.nio.ByteBuffer
 import java.util.*
+import javax.print.attribute.standard.MediaSize.Other
 import kotlin.collections.HashMap
 
 class Microservice(
@@ -46,7 +47,7 @@ class Microservice(
     private lateinit var server: NettyApplicationEngine
 
     // other services
-    private val otherServices = hashMapOf<String, OtherMicroservice>()
+    private val otherServices = hashMapOf<UUID, OtherMicroservice>()
 
     // broadcast checker, runs once per second, sees if any new threads where created or destroyed by listening to the multicast group packets
     private val broadcastChecker = loopingThread(1000) {
@@ -68,19 +69,24 @@ class Microservice(
             "join" -> {
                 // make sure new service is not a new service
                 val servName = json.getString("name")
-                if (servName != name && !otherServices.containsKey(servName)) joinServices(servName, OtherMicroservice(json))
+                val servUUID = UUID.fromString(json.getString("uuid"))
+                println("Other service $name $uuid, allowed? ${otherServices.any { it.key == servUUID && it.value.name == servName }}")
+                if (uuid != servUUID && !otherServices.any { it.key == servUUID && it.value.name == servName }) joinServices(servUUID, OtherMicroservice(json))
             }
             "close" -> {
                 // remove service
-                otherServices.remove(json.getString("name"))
+                otherServices.remove(UUID.fromString(json.getString("uuid")))
             }
             else -> throw IllegalArgumentException("Unknown status: $status")
         }
     }
 
-    private fun joinServices(name: String, otherService: OtherMicroservice) {
+    fun getOtherServices(): Collection<OtherMicroservice> = otherServices.values
+
+    private fun joinServices(uuid: UUID, otherService: OtherMicroservice) {
         // save service
-        otherServices[name] = otherService
+        otherServices[uuid] = otherService
+        println("Other services ${otherServices.keys}")
 
         // send it a join packet
         broadcastPacket(getJoinPacket().toString(0).toByteArray())
@@ -102,9 +108,9 @@ class Microservice(
 
     // make request to services
     fun request(target: String, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit)
-        { request(otherServices[target] ?: return, endpoint, json, onComplete) }
+        { request(otherServices.values.firstOrNull { it.name == target } ?: return, endpoint, json, onComplete) }
     fun request(target: UUID, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit)
-        { request(otherServices.values.firstOrNull { it.uuid == uuid } ?: return, endpoint, json, onComplete) }
+        { request(otherServices[target] ?: return, endpoint, json, onComplete) }
     private fun request(target: OtherMicroservice, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit) {
         Requester.rawRequest(logger, "http://localhost:${target.port}/$endpoint", json, onComplete)
     }
