@@ -13,6 +13,7 @@
 ========== Waterfall Service ==========
 - [ ] Plugin for waterfall
 - [ ] Command to run endpoints
+- [ ] Automatically connect nodes to waterfall, default to first node for initial node
 - [ ] Endpoint: get player info (by name or uuid)
 - [ ] Endpoint: move player
 - [ ] Endpoint: set initial node (this is the node that players initially connect too, and this is the fallback server)
@@ -49,10 +50,10 @@
 =========== Node Plugin ===========
 - [ ] When a player joins or leaves, update the node service
 - [ ] When node starts or shuts down, update the node service
-- [ ] Allow any plugin that depends on this plugin to add endpoints, get template, and request endpoints
+- [ ] Allow any plugin that depends on this plugin to add endpoints (only in onLoad since service will not be started yet), and request endpoints
 - [ ] Endpoint: Get player info
   - Return player info like inventory, health, potion effects, etc
 - [ ] Endpoint: Set player info
   - Optionally set any info given in the "get player info" endpoint
 - [ ] Endpoint: Info override
-  - Add information like template type, active players, and active plugins
+  - Add information like directory, active players, and active plugins
