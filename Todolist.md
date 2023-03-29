@@ -15,6 +15,7 @@
 - [ ] Command to run endpoints
 - [ ] Automatically connect nodes to waterfall, default to first node for initial node
 - [ ] Endpoint: get player info (by name or uuid)
+  - Optionally, request from node
 - [ ] Endpoint: move player
 - [ ] Endpoint: set initial node (this is the node that players initially connect too, and this is the fallback server)
 
