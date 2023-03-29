@@ -70,7 +70,6 @@ class Microservice(
                 // make sure new service is not a new service
                 val servName = json.getString("name")
                 val servUUID = UUID.fromString(json.getString("uuid"))
-                println("Other service $name $uuid, allowed? ${otherServices.any { it.key == servUUID && it.value.name == servName }}")
                 if (uuid != servUUID && !otherServices.any { it.key == servUUID && it.value.name == servName }) joinServices(servUUID, OtherMicroservice(json))
             }
             "close" -> {
@@ -86,7 +85,6 @@ class Microservice(
     private fun joinServices(uuid: UUID, otherService: OtherMicroservice) {
         // save service
         otherServices[uuid] = otherService
-        println("Other services ${otherServices.keys}")
 
         // send it a join packet
         broadcastPacket(getJoinPacket().toString(0).toByteArray())
