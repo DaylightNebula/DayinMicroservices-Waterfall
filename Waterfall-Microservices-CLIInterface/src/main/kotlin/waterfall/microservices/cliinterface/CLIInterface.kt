@@ -44,7 +44,7 @@ fun runCommand() {
             }
 
             // make sure target is valid
-            val targetUUID = UUID.fromString(tokens[1])
+            val targetUUID = try { UUID.fromString(tokens[1]) } catch (ex: Exception) { null }
             val targetService =
                 if (targetUUID != null)
                     service.getOtherServices().firstOrNull { it.uuid == targetUUID }
@@ -85,7 +85,7 @@ fun runCommand() {
             }
 
             // make sure target is valid
-            val targetUUID = UUID.fromString(tokens[1])
+            val targetUUID = try { UUID.fromString(tokens[1]) } catch (ex: Exception) { null }
             val targetService =
                 if (targetUUID != null)
                     service.getOtherServices().firstOrNull { it.uuid == targetUUID }
