@@ -41,6 +41,10 @@ class Microservice(
 
     // logger
     private val logger: KLogger = KotlinLogging.logger("Node ${name.ifBlank { uuid.toString() }}"),
+
+    // callbacks for when a service starts and closes
+    private val onServiceOpen: (json: JSONObject) -> Unit = {},
+    private val onServiceClose: (json: JSONObject) -> Unit = {}
 ): Thread() {
 
     // server stuff
@@ -71,11 +75,13 @@ class Microservice(
                 // make sure new service is not a new service
                 val servName = json.getString("name")
                 val servUUID = UUID.fromString(json.getString("uuid"))
-                if (uuid != servUUID && !otherServices.any { it.key == servUUID && it.value.name == servName }) joinServices(servUUID, OtherMicroservice(json))
+                if (uuid != servUUID && !otherServices.any { it.key == servUUID && it.value.name == servName }) joinServices(servUUID, OtherMicroservice(json), json)
             }
             "close" -> {
                 // remove service
-                otherServices.remove(UUID.fromString(json.getString("uuid")))
+                val uuid = UUID.fromString(json.getString("uuid"))
+                otherServices[uuid]?.let { onServiceClose(json) }
+                otherServices.remove(uuid)
             }
             else -> throw IllegalArgumentException("Unknown status: $status")
         }
@@ -83,12 +89,14 @@ class Microservice(
 
     fun getOtherServices(): Collection<OtherMicroservice> = otherServices.values
 
-    private fun joinServices(uuid: UUID, otherService: OtherMicroservice) {
+    private fun joinServices(uuid: UUID, otherService: OtherMicroservice, json: JSONObject) {
         // save service
         otherServices[uuid] = otherService
 
         // send it a join packet
         broadcastPacket(getJoinPacket().toString(0).toByteArray())
+
+        onServiceOpen(json)
     }
 
     // just start the server on this thread

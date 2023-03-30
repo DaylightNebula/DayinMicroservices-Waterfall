@@ -11,13 +11,11 @@
 - [X] UUID, that can optionally be specified, this should also work to identify a service
 
 ========== Waterfall Service ==========
-- [ ] Plugin for waterfall
-- [ ] Command to run endpoints
-- [ ] Automatically connect nodes to waterfall, default to first node for initial node
-- [ ] Endpoint: get player info (by name or uuid)
-  - Optionally, request from node
-- [ ] Endpoint: move player
-- [ ] Endpoint: set initial node (this is the node that players initially connect too, and this is the fallback server)
+- [x] Automatically connect nodes to waterfall, default to first node for initial node
+- [x] Endpoint: get player info (by name or uuid)
+- [x] Endpoint: kick player
+- [x] Endpoint: move player
+- [x] Endpoint: set initial node (this is the node that players initially connect too, and this is the fallback server)
 
 ============ Node  Service ============
 - [ ] Endpoint: Create node
