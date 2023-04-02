@@ -85,8 +85,8 @@ class Microservice(
             "close" -> {
                 // remove service
                 val uuid = UUID.fromString(json.getString("uuid"))
-                otherServices[uuid]?.let { onServiceClose(json) }
-                otherServices.remove(uuid)
+                val removed = otherServices.remove(uuid)
+                if (removed != null) onServiceClose(json)
             }
             else -> throw IllegalArgumentException("Unknown status: $status")
         }

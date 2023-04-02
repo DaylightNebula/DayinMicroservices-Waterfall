@@ -102,6 +102,10 @@ class WaterfallPlugin: Plugin(), Listener {
         service.start()
     }
 
+    override fun onDisable() {
+        service.dispose()
+    }
+
     private fun newNode(json: JSONObject) {
         // make sure this is a node
         if (!json.has("port") || !json.getString("name").startsWith("node-")) return
