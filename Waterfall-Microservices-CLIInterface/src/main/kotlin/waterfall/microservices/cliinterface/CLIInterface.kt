@@ -74,9 +74,12 @@ fun runCommand() {
                 targetService.uuid,
                 tokens[2],
                 json
-            ) {
-                println("Response: ${it?.toString(4)}")
+            )!!.whenComplete { json, _ ->
+                println("Response ${json.toString(4)}")
             }
+//            {
+//                println("Response: ${it?.toString(4)}")
+//            }
         }
         "info" -> {
             if (tokens.isEmpty()) {

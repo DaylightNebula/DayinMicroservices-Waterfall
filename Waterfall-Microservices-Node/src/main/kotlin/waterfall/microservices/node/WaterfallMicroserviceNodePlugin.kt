@@ -69,7 +69,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
                 .put("node", rootDir.name)
                 .put("serviceUUID", service.uuid)
                 .put("player", event.player.getJsonInfo())
-            joinServices.forEach { service.request(it.uuid, "player_join", data) {} }
+            joinServices.forEach { service.request(it.uuid, "player_join", data) }
         }
     }
 
@@ -83,7 +83,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
                 .put("node", rootDir.name)
                 .put("serviceUUID", service.uuid)
                 .put("player", event.player.getJsonInfo())
-            quitServices.forEach { service.request(it.uuid, "player_quit", data) {} }
+            quitServices.forEach { service.request(it.uuid, "player_quit", data) }
         }
     }
 }

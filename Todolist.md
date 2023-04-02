@@ -9,7 +9,8 @@
 - [x] Each service should have an endpoint for path "/" to function as a ping, can be overriden
 - [x] Each service should have another overrideable endpoint to get service info on path "/info"
 - [X] UUID, that can optionally be specified, this should also work to identify a service
-- [ ] Ping services
+- [x] Ping services
+- [x] Switch nodes to use completable futures
 
 ========== Waterfall Service ==========
 - [x] Automatically connect nodes to waterfall, default to first node for initial node

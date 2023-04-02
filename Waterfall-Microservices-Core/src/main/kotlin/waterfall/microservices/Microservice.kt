@@ -19,6 +19,8 @@ import java.net.NetworkInterface
 import java.net.ServerSocket
 import java.nio.ByteBuffer
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
 import javax.print.attribute.standard.MediaSize.Other
 import kotlin.collections.HashMap
 
@@ -72,7 +74,7 @@ class Microservice(
         multicastSocket.receive(packet)
 
         // convert packet to json, cancel if json could not be read
-        val json = try { JSONObject(String(packet.data)) } catch (ex: Exception) { ex.printStackTrace(); return@loopingThread }
+        val json = try { JSONObject(String(packet.data)) } catch (ex: Exception) { return@loopingThread }
 
         // handle join and close
         when (val status = json.optString("status") ?: "NOT_GIVEN") {
@@ -89,6 +91,17 @@ class Microservice(
                 if (removed != null) onServiceClose(json)
             }
             else -> throw IllegalArgumentException("Unknown status: $status")
+        }
+    }
+    private val servicesChecker = loopingThread(1000) {
+        otherServices.forEach { (_, oService) ->
+            request(oService, "", JSONObject())
+                .completeOnTimeout(JSONObject().put("timeout", "true"), 1000, TimeUnit.MILLISECONDS)
+                .whenComplete { json, _ ->
+                    // if status is not ok, remove the service
+                    if (json.optString("status", "no") != "ok")
+                        otherServices.remove(oService.uuid)
+                }
         }
     }
 
@@ -119,12 +132,12 @@ class Microservice(
     }
 
     // make request to services
-    fun request(target: String, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit)
-        { request(otherServices.values.firstOrNull { it.name == target } ?: return, endpoint, json, onComplete) }
-    fun request(target: UUID, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit)
-        { request(otherServices[target] ?: return, endpoint, json, onComplete) }
-    private fun request(target: OtherMicroservice, endpoint: String, json: JSONObject, onComplete: (json: JSONObject?) -> Unit) {
-        Requester.rawRequest(logger, "http://localhost:${target.port}/$endpoint", json, onComplete)
+    fun request(target: String, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>?
+        { return request(otherServices.values.firstOrNull { it.name == target } ?: return null, endpoint, json) }
+    fun request(target: UUID, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>?
+        { return request(otherServices[target] ?: return null, endpoint, json) }
+    fun request(target: OtherMicroservice, endpoint: String, json: JSONObject): CompletableFuture<JSONObject> {
+        return Requester.rawRequest(logger, "http://localhost:${target.port}/$endpoint", json)
     }
 
     // function that sends a byte array to a given socket
@@ -217,6 +230,7 @@ class Microservice(
     fun dispose(hidden: Boolean = false) {
         if (!hidden) broadcastPacket(getClosePacket().toString(0).toByteArray())
         broadcastChecker.dispose()
+        servicesChecker.dispose()
         server.stop(1000, 1000)
         logger.info { "Shutdown $name, hidden = $hidden" }
         super.join()
