@@ -1,13 +1,8 @@
 package waterfall.microservices
 
 import com.orbitz.consul.Consul
-import com.orbitz.consul.HealthClient
-import com.orbitz.consul.model.agent.Check
-import com.orbitz.consul.model.agent.ImmutableCheck
 import com.orbitz.consul.model.agent.ImmutableRegCheck
 import com.orbitz.consul.model.agent.ImmutableRegistration
-import com.orbitz.consul.model.agent.Registration
-import com.orbitz.consul.model.health.HealthCheck
 import com.orbitz.consul.model.health.Service
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -16,21 +11,12 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import mu.KLogger
 import mu.KotlinLogging
-import org.json.JSONObject
 import org.json.JSONArray
-import java.lang.Thread
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import java.net.InetAddress
-import java.net.InetSocketAddress
-import java.net.MulticastSocket
-import java.net.NetworkInterface
-import java.net.ServerSocket
+import org.json.JSONObject
+import java.net.*
 import java.nio.ByteBuffer
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.TimeUnit
-import kotlin.collections.HashMap
 
 class Microservice(
     // name and id for the service, these are used to identify the
@@ -88,6 +74,7 @@ class Microservice(
 //
 //        onServiceOpen(json)
 //    }
+    fun getService(name: String): Service? { return consul.agentClient().services[name] }
     fun getServices(): Collection<Service> { return consul.agentClient().services.values }
 
     // just start the server on this thread
@@ -129,13 +116,11 @@ class Microservice(
     }
 
     // make request to services
-//    fun request(target: String, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>?
-//        { return request(otherServices.values.firstOrNull { it.name == target } ?: return null, endpoint, json) }
-//    fun request(target: UUID, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>?
-//        { return request(otherServices[target] ?: return null, endpoint, json) }
-//    fun request(target: OtherMicroservice, endpoint: String, json: JSONObject): CompletableFuture<JSONObject> {
-//        return Requester.rawRequest(logger, "http://localhost:${target.port}/$endpoint", json)
-//    }
+    fun request(name: String, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>? {
+        val service = consul.agentClient().services[name] ?: return null
+        val address = "http://${service.address}:${service.port}/$endpoint"
+        return Requester.rawRequest(logger, address, json)
+    }
 
     // function that sends a byte array to a given socket
     private fun broadcastPacket(data: ByteArray) {
@@ -231,14 +216,4 @@ class Microservice(
         logger.info { "Shutdown $name, hidden = $hidden" }
         super.join()
     }
-}
-
-data class OtherMicroservice(val name: String, val uuid: UUID, val port: Int, val endpoints: List<String>, val info: JSONObject) {
-    constructor(json: JSONObject): this(
-        json.getString("name"),
-        UUID.fromString(json.getString("uuid")),
-        json.getInt("port"),
-        json.getJSONArray("endpoints").map { it as String },
-        json
-    )
 }
