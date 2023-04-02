@@ -42,8 +42,8 @@ class Template(
         TemplateOverflow.valueOf(json.optString("overflow_behavior", "wait").uppercase()),
         json.optBoolean("shutdown_no_players", false),
         json.optInt("max_players_merge", 0),
-        json.optInt("minNodes", 0),
-        json.optInt("maxNodes", 100),
+        json.optInt("min_nodes", 0),
+        json.optInt("max_nodes", 100),
         json.optBoolean("default_template", false)
     )
 

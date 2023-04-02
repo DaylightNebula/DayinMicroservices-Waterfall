@@ -61,6 +61,11 @@ class Microservice(
         multicastSocket.receive(sizePacket)
         val numBytes = ByteBuffer.wrap(sizeBuffer).int
 
+        if (numBytes > 10000) {
+            logger.warn("A packet exceeded the limit of 10000 characters, could just be startup buggyness")
+            return@loopingThread
+        }
+
         // read packet
         val buffer = ByteArray(numBytes)
         val packet = DatagramPacket(buffer, buffer.size)

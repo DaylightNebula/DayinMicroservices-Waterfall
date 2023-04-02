@@ -1,11 +1,14 @@
 package waterfall.microservices.waterfall
 
+import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.ProxyServer
+import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.config.ServerInfo
 import net.md_5.bungee.api.event.LoginEvent
 import net.md_5.bungee.api.event.PostLoginEvent
 import net.md_5.bungee.api.event.PreLoginEvent
+import net.md_5.bungee.api.event.ServerConnectEvent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.api.plugin.Plugin
 import net.md_5.bungee.event.EventHandler
@@ -104,20 +107,21 @@ class WaterfallPlugin: Plugin(), Listener {
         if (!json.has("port") || !json.getString("name").startsWith("node-")) return
 
         // create new server info
-        val address = InetSocketAddress("localhost", json.getInt("port"))
+        val port = json.getInt("serverPort")
+        val address = InetSocketAddress("localhost", port)
         val serverInfo = ProxyServer.getInstance().constructServerInfo(json.getString("name"), address, "", false)
+//        ProxyServer.getInstance().config.addServer(serverInfo)
 
         // save server info
         servers[json.getString("name")] = Pair(serverInfo, OtherMicroservice(json))
+        println("Created new node $json")
     }
 
     @EventHandler
-    fun onLogin(event: PostLoginEvent) {
+    fun onLogin(event: ServerConnectEvent) {
         // send player to initial server
-        event.player.connect(
-            initialServer?.first
-                    ?: servers.values.firstOrNull()?.first
+        event.target = initialServer?.first
+            ?: servers.values.firstOrNull()?.first
                     ?: return
-        )
     }
 }
