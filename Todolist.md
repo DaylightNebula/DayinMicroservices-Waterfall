@@ -55,4 +55,4 @@
 - [x] Endpoint: Info override
   - Add information like directory, active players, and active plugins
 - [x] Endpoint: Get all players
-- [ ] Template argument with default
+- [x] Template argument with default

@@ -13,17 +13,19 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
     println("Service open $json")
     // if this is server node, add it to its respective node
     val serverPort = json.optInt("serverPort", -1)
-    if (serverPort != -1)
-        templates.forEach { template -> template.getNode(serverPort)?.let { it.service = OtherMicroservice(json); println("Found node service with port $serverPort") } }
+    if (serverPort != -1 && json.has("template"))
+        templates[json.getString("template")]?.getNode(serverPort)?.let { it.service = OtherMicroservice(json); it.running = true; logger.info("Node ${it.serverPort} connected!") }
 }, onServiceClose = { json ->
-
+    val serverPort = json.optInt("serverPort", -1)
+    if (serverPort != -1 && json.has("template"))
+        templates[json.getString("template")]?.getNode(serverPort)?.let { it.service }
 })
 val options = hashMapOf(
     "templates_description_path" to "templates.json",
     "templates_directory_path" to "templates",
     "instances_directory_path" to "instances"
 )
-val templates = mutableListOf<Template>()
+val templates = hashMapOf<String, Template>()
 val logger = KotlinLogging.logger("NodeManager")
 
 fun main(args: Array<String>) {
@@ -40,13 +42,13 @@ fun main(args: Array<String>) {
         File(options["templates_directory_path"]!!),
         templates
     )
-    templates.forEach { template -> logger.info("Loaded template ${template.name}") }
+    templates.forEach { template -> logger.info("Loaded template ${template.value.name}") }
 
     service.start()
 }
 
 // function that loads template json from the given file and puts them in the target list
-fun loadTemplates(file: File, rootDir: File, target: MutableList<Template>) {
+fun loadTemplates(file: File, rootDir: File, target: HashMap<String, Template>) {
     // if file does not exist, throw warning and cancel
     if (!file.exists()) {
         logger.warn("Could not find file at ${file.absolutePath} so no templates will be loaded!")
@@ -54,7 +56,7 @@ fun loadTemplates(file: File, rootDir: File, target: MutableList<Template>) {
     }
 
     // add all template json objects from the given file to the target list
-    target.addAll(JSONArray(file.readText()).mapNotNull {
+    target.putAll(JSONArray(file.readText()).mapNotNull {
         // get json
         val json = it as JSONObject
 
@@ -64,7 +66,7 @@ fun loadTemplates(file: File, rootDir: File, target: MutableList<Template>) {
             logger.warn("Could not get directory at path ${directory.absolutePath}, dropping template ${json.getString("name")}")
 
         // create the template if the directory exists
-        if (directory.exists() && directory.isDirectory) Template(json, directory) else null
+        if (directory.exists() && directory.isDirectory) json.getString("name") to Template(json, directory) else null
     })
 }
 

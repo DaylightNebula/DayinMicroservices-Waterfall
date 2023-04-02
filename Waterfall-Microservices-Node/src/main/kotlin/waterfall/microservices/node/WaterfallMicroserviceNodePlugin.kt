@@ -22,6 +22,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
                 .put("players", Bukkit.getOnlinePlayers().map { it.uniqueId })
                 .put("plugins", Bukkit.getPluginManager().plugins.map { it.name })
                 .put("serverPort", Bukkit.getPort())
+                .put("template", System.getProperty("template", ""))
         },
         "get_player_info" to { inJson ->
             if (inJson.has("uuid")) {

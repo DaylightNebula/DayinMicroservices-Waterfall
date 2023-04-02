@@ -4,6 +4,8 @@ import waterfall.microservices.OtherMicroservice
 import java.io.File
 import java.net.ServerSocket
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.concurrent.thread
 import kotlin.random.Random
 
 class Node(
@@ -36,12 +38,31 @@ class Node(
         if (!startFile.exists()) {
             template.logger.error("No file named start in template ${template.name}, cancelling node creation!")
         }
-        startFile.writeText(startFile.readText().replace("{port}", serverPort.toString()))
+        startFile.writeText(
+            startFile.readText()
+                .replace("{port}", serverPort.toString())
+                .replace("{template}", template.name)
+        )
 
         // run start file
         process = ProcessBuilder("cmd", "/C", startFile.absolutePath)
             .directory(instanceDirectory)
             .redirectOutput(File(instanceDirectory, "log.txt"))
             .start()
+    }
+
+    fun stop() {
+        // start a thread to stop the server so that the main thread does not lag
+        thread {
+            // give the process 10 seconds to shut down
+            thread {
+                process.destroy()
+                process.waitFor()
+            }.join(10000)
+
+            // after which, if the process is still running, force it to shut down
+            if (process.isAlive)
+                process.destroyForcibly()
+        }
     }
 }

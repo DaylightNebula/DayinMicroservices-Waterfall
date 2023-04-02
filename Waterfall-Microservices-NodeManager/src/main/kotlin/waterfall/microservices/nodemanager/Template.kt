@@ -59,6 +59,8 @@ class Template(
     // create new node of this type
     fun getNode(serverPort: Int): Node? = nodes.firstOrNull { it.serverPort == serverPort }
     fun newNode(): Node = Node(this)
+    fun removeNode(node: Node?) = node?.let { nodes.remove(node); node.stop() }
+    fun removeNode(serverPort: Int) { removeNode(nodes.firstOrNull { it.serverPort == serverPort }) }
 
     fun dispose() {
         updateLoop.dispose()
