@@ -6,6 +6,8 @@ import org.json.JSONObject
 import waterfall.microservices.Microservice
 import waterfall.microservices.OtherMicroservice
 import java.io.File
+import java.util.*
+import kotlin.collections.HashMap
 
 val service = Microservice("node-manager", endpoints = hashMapOf(
     // endpoint ot create a new node of the given template
@@ -79,6 +81,34 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
     "get_templates" to { _ ->
         // send back list of active templates
         JSONObject().put("templates", templates.values.map { it.name })
+    },
+
+    // endpoint that is called when a player joins a node
+    "player_join" to { json ->
+        // get and setup basic info
+        val node = json.optString("node", "")
+        val uuid = UUID.fromString(json.getJSONObject("player").getString("uuid"))
+        println("Player join $json")
+
+        // find the given node and add the player
+        templates.values.forEach { it.getNode(node)?.addPlayer(uuid) }
+
+        // send back nothing
+        JSONObject()
+    },
+
+    // endpoint that is called when a player leaves a node
+    "player_quit" to { json ->
+        // get and setup basic info
+        val node = json.optString("node", "")
+        val uuid = UUID.fromString(json.getJSONObject("player").getString("uuid"))
+        println("Player quit $json")
+
+        // find the given node and remove the player
+        templates.values.forEach { it.getNode(node)?.removePlayer(uuid) }
+
+        // send back nothing
+        JSONObject()
     }
 ), onServiceOpen = { json ->
     // if this is server node, add it to its respective node

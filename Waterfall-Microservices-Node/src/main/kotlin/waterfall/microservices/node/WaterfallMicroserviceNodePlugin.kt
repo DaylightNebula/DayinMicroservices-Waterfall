@@ -165,7 +165,8 @@ fun Player.getJsonInfo(): JSONObject {
                 .put("ambient", effect.isAmbient)
                 .put("infinite", effect.isInfinite)
         })
-        .put("inventory", this.inventory.map { item ->
+        .put("inventory", this.inventory.mapNotNull { item ->
+            if (item == null) null else
             JSONObject()
                 .put("type", item.type)
                 .put("amount", item.amount)

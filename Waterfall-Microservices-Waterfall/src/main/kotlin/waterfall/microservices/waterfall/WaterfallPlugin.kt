@@ -108,7 +108,7 @@ class WaterfallPlugin: Plugin(), Listener {
 
     private fun newNode(json: JSONObject) {
         // make sure this is a node
-        if (!json.has("port") || !json.getString("name").startsWith("node-")) return
+        if (!json.has("port") || !json.has("serverPort")) return
 
         // create new server info
         val port = json.getInt("serverPort")

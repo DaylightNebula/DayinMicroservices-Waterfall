@@ -57,6 +57,7 @@ class Template(
     // create new node of this type
     fun getNodes(): List<Node> = nodes
     fun getNode(serverPort: Int): Node? = nodes.firstOrNull { it.serverPort == serverPort }
+    fun getNode(name: String): Node? = nodes.firstOrNull { it.oService?.name == name }
     fun newNode(): Node { val node = Node(this); nodes.add(node); return node }
     fun newNode(oService: OtherMicroservice, info: JSONObject): Node { val node = Node(this, oService = oService, info = info); nodes.add(node); return node }
     fun removeNode(node: Node?) = node?.let { nodes.remove(node); node.stop() }
@@ -65,7 +66,7 @@ class Template(
     // functions for load balancing
     fun getBalancedNode(): Node? {
         // TODO balancing
-        return nodes.minByOrNull { it.players.size }
+        return nodes.minByOrNull { it.getPlayers().size }
     }
 
     fun dispose() {

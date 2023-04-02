@@ -9,7 +9,7 @@ import kotlin.random.Random
 
 class Node(
     val template: Template,
-    val players: MutableList<UUID> = mutableListOf(),
+    private val players: MutableList<UUID> = mutableListOf(),
     var running: Boolean = false,
     var serverPort: Int = 0,
     internal var oService: OtherMicroservice? = null,
@@ -19,10 +19,13 @@ class Node(
 
     init {
         if (oService == null) create()
-        else println("Received node ${oService!!.name}")
+        else {
+            println("Received node ${oService!!.name}")
+            players.addAll(info!!.getJSONArray("players").map { UUID.fromString(it as String) })
+        }
     }
 
-    fun create() {
+    private fun create() {
         // log the start
         template.logger.info("Creating node from template ${template.name}...")
 
@@ -53,6 +56,24 @@ class Node(
             .directory(instanceDirectory)
             .redirectOutput(File(instanceDirectory, "log.txt"))
             .start()
+    }
+
+    fun addPlayer(uuid: UUID) {
+        players.add(uuid)
+        println("Added player $uuid")
+    }
+
+    fun removePlayer(uuid: UUID) {
+        players.remove(uuid)
+        println("Removed player $uuid")
+    }
+
+    fun hasPlayer(uuid: UUID): Boolean {
+        return players.contains(uuid)
+    }
+
+    fun getPlayers(): List<UUID> {
+        return players
     }
 
     fun stop() {

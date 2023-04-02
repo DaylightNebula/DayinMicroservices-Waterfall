@@ -64,7 +64,7 @@ class Microservice(
         val numBytes = ByteBuffer.wrap(sizeBuffer).int
 
         if (numBytes > 10000) {
-            logger.warn("A packet exceeded the limit of 10000 characters, could just be startup buggyness")
+            logger.warn("A packet exceeded the limit of 10000 characters, could just be startup buggyness $numBytes")
             return@loopingThread
         }
 
