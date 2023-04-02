@@ -2,6 +2,7 @@ package waterfall.microservices.nodemanager
 
 import mu.KotlinLogging
 import org.json.JSONObject
+import waterfall.microservices.OtherMicroservice
 import waterfall.microservices.loopingThread
 import java.io.File
 
@@ -56,9 +57,8 @@ class Template(
     }
 
     // create new node of this type
-    private fun newNode(): Node {
-        return Node(this)
-    }
+    fun getNode(serverPort: Int): Node? = nodes.firstOrNull { it.serverPort == serverPort }
+    fun newNode(): Node = Node(this)
 
     fun dispose() {
         updateLoop.dispose()

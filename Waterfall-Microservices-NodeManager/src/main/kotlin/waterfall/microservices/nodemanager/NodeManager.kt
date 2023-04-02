@@ -3,8 +3,21 @@ package waterfall.microservices.nodemanager
 import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject
+import waterfall.microservices.Microservice
+import waterfall.microservices.OtherMicroservice
 import java.io.File
 
+val service = Microservice("node-manager", endpoints = hashMapOf(
+
+), onServiceOpen = { json ->
+    println("Service open $json")
+    // if this is server node, add it to its respective node
+    val serverPort = json.optInt("serverPort", -1)
+    if (serverPort != -1)
+        templates.forEach { template -> template.getNode(serverPort)?.let { it.service = OtherMicroservice(json); println("Found node service with port $serverPort") } }
+}, onServiceClose = { json ->
+
+})
 val options = hashMapOf(
     "templates_description_path" to "templates.json",
     "templates_directory_path" to "templates",
@@ -28,6 +41,8 @@ fun main(args: Array<String>) {
         templates
     )
     templates.forEach { template -> logger.info("Loaded template ${template.name}") }
+
+    service.start()
 }
 
 // function that loads template json from the given file and puts them in the target list

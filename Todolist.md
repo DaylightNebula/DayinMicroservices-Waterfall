@@ -9,6 +9,7 @@
 - [x] Each service should have an endpoint for path "/" to function as a ping, can be overriden
 - [x] Each service should have another overrideable endpoint to get service info on path "/info"
 - [X] UUID, that can optionally be specified, this should also work to identify a service
+- [ ] Ping services
 
 ========== Waterfall Service ==========
 - [x] Automatically connect nodes to waterfall, default to first node for initial node
@@ -54,3 +55,4 @@
 - [x] Endpoint: Info override
   - Add information like directory, active players, and active plugins
 - [x] Endpoint: Get all players
+- [ ] Template argument with default
