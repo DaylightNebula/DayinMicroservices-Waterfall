@@ -30,12 +30,11 @@
 - [x] Endpoint: Get all templates
 - [x] Update loop: Make sure all nodes are running by pinging them.  Close them if they do not respond for more than 5 pings.
 - [x] Update player list on node end
-- [ ] Template Settings
-  - [ ] "auto avoid max player count": boolean, if a node with this template is approaching max player count, a new node is created.
-  - [ ] "shutdown if no players": boolean, if true, a node will be closed if it has no players.
-  - [ ] "max players for merge": int, if greater than 0, if a node stays at or below the given number of players, all players will be moved to another node with this template if it has space.
-  - [ ] "min number nodes": int, the minimum number of nodes required for this template
-  - [ ] "default": boolean, if true, a node with this template can be a initial node
+- [x] Template Settings
+  - [x] "new node at player count": boolean, if a node reaches this player count, a new node will be created
+  - [x] "shutdown if no players": boolean, if true, a node will be closed if it has no players.
+  - [x] "min number nodes": int, the minimum number of nodes required for this template
+  - [x] "default": boolean, if true, a node with this template can be a initial node
 
 =========== Node Plugin ===========
 - [x] When a player joins or leaves, update any service with a player join or quit endpoints

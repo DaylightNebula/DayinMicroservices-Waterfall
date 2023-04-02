@@ -6,6 +6,7 @@ import java.io.File
 import java.net.ServerSocket
 import java.util.*
 import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
 
 class Node(
     val template: Template,
@@ -16,6 +17,7 @@ class Node(
     internal var info: JSONObject? = null
 ) {
     private val instanceDirectory = File(options["instances_directory_path"]!!, "tmp-${Random.nextInt(0, Int.MAX_VALUE)}")
+    private var maxTotalPlayers = 0
 
     fun setService(nodeService: Service) {
         this.nodeService = nodeService
@@ -70,14 +72,27 @@ class Node(
             .start()
     }
 
+    private var lastNewNodeCall = System.currentTimeMillis()
     fun addPlayer(uuid: UUID) {
+        // add player and update the recommended node
         players.add(uuid)
         updateRecommended()
+
+        // update max total players if necessary
+        if (players.size > maxTotalPlayers) maxTotalPlayers = players.size
+
+        // if it has been at least 1 minute since the last new node call and new node at player count is enabled and that player count is reached, create a new node
+        if (System.currentTimeMillis() - lastNewNodeCall > 60000 && players.size >= template.newNodeAtPlayerCount && template.newNodeAtPlayerCount != 0) {
+            template.newNode()
+            lastNewNodeCall = System.currentTimeMillis()
+        }
     }
 
     fun removePlayer(uuid: UUID) {
         players.remove(uuid)
         updateRecommended()
+        if (maxTotalPlayers > 0 && players.isEmpty() && template.shutdownNoPlayers)
+            stop()
     }
 
     fun hasPlayer(uuid: UUID): Boolean {
@@ -92,7 +107,9 @@ class Node(
         nodeService?.service?.let { service.request(it, "stop", JSONObject()) }
     }
 
-    fun updateRecommended() {
-
+    private fun updateRecommended() {
+        // if I am the recommended node and this template is default, send set initial node packet to waterfall
+        if (template.defaultTemplate && template.getBalancedNode() == this && nodeService != null)
+            service.request("waterfall", "set_intial_node", JSONObject().put("server", nodeService!!.service))
     }
 }

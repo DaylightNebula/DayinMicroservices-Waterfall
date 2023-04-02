@@ -19,9 +19,6 @@ class Template(
     // if true and there are more nodes around than the specified minimum, a node will be shutdown if it has no players
     val shutdownNoPlayers: Boolean = false,
 
-    // if a nodes player count is at or below this value and there are more nodes around than the specified minimum, the players will be sent to another node
-    val maxPlayersMerge: Int = 0,
-
     // min and max nodes that this template can have
     val minNodes: Int = 0,
     val maxNodes: Int = 100,
@@ -38,7 +35,6 @@ class Template(
         json.optInt("max_players", 20),
         json.optInt("new_node_at_player_count", 0),
         json.optBoolean("shutdown_no_players", false),
-        json.optInt("max_players_merge", 0),
         json.optInt("min_nodes", 0),
         json.optInt("max_nodes", 100),
         json.optBoolean("default_template", false)
