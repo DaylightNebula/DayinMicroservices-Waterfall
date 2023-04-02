@@ -12,6 +12,7 @@ repositories {
 dependencies {
     // microservices
     implementation(project(":Waterfall-Microservices-Core"))
+    implementation("com.orbitz.consul:consul-client:1.5.3")
 
     // json
     implementation("org.json:json:20230227")

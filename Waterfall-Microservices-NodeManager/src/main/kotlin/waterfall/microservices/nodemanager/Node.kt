@@ -1,7 +1,7 @@
 package waterfall.microservices.nodemanager
 
+import com.orbitz.consul.model.health.Service
 import org.json.JSONObject
-import waterfall.microservices.OtherMicroservice
 import java.io.File
 import java.net.ServerSocket
 import java.util.*
@@ -12,16 +12,21 @@ class Node(
     private val players: MutableList<UUID> = mutableListOf(),
     var running: Boolean = false,
     var serverPort: Int = 0,
-    internal var oService: OtherMicroservice? = null,
+    internal var nodeService: Service? = null,
     internal var info: JSONObject? = null
 ) {
     private val instanceDirectory = File(options["instances_directory_path"]!!, "tmp-${Random.nextInt(0, Int.MAX_VALUE)}")
 
     init {
-        if (oService == null) create()
+        if (nodeService == null) create()
         else {
-            println("Received node ${oService!!.name}")
-            players.addAll(info!!.getJSONArray("players").map { UUID.fromString(it as String) })
+            logger.info("Received node ${nodeService!!.service}, requesting info...")
+            // get info
+            service.request(nodeService!!.service, "info", JSONObject())?.whenComplete { json, _ ->
+                info = json
+                players.addAll(info!!.getJSONArray("players").map { UUID.fromString(it as String) })
+                logger.info("Received info from node ${nodeService!!.service}")
+            } ?: logger.warn("Could not request info from ${nodeService!!.service}")
         }
     }
 
@@ -77,6 +82,6 @@ class Node(
     }
 
     fun stop() {
-        oService?.let { service.request(it. uuid, "stop", JSONObject()) }
+        nodeService?.service?.let { service.request(it, "stop", JSONObject()) }
     }
 }

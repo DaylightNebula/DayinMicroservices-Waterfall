@@ -84,7 +84,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
             .put("node", rootDir.name)
             .put("serviceUUID", service.uuid)
             .put("player", event.player.getJsonInfo())
-        service.request("node-manager", "player_join", data)
+        service.request("node-manager", "player_quit", data)
     }
 
     fun movePlayerToServer(server: String): CompletableFuture<Boolean> {

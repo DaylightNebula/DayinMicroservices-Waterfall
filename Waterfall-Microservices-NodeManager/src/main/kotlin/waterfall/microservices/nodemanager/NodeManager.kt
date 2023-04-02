@@ -1,15 +1,42 @@
 package waterfall.microservices.nodemanager
 
+import com.orbitz.consul.model.health.Service
 import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject
 import waterfall.microservices.Microservice
-import waterfall.microservices.OtherMicroservice
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
-val service = Microservice("node-manager", endpoints = hashMapOf(
+val onServiceOpen: (serv: Service) -> Unit = { serv ->
+    // if that service is a spigot node, load it
+    if (serv.tags.contains("spigot")) {
+        println("Spigot service created ${serv.service}")
+        // request the nodes info
+        service.request(serv.service, "info", JSONObject())?.whenComplete { json, _ ->
+            val templateName = json.getString("template")
+            val port = json.getInt("serverPort")
+            val template = templates[templateName]
+            template?.let { template ->
+                template.getNode(port)?.let {
+                    it.nodeService = serv
+                    it.info = json
+                    it.running = true
+                    logger.info("Node ${it.serverPort} connected!")
+                } ?: template.newNode(serv, json)
+            }
+        } ?: logger.warn("Could not request info on service open from ${serv.service}")
+    }
+}
+val onServiceClose: (serv: Service) -> Unit = { serv ->
+    // make sure this is a spigot service
+    if (serv.tags.contains("spigot")) {
+        // find a node with the given service (since we cant request info)
+        templates.values.forEach { template -> template.getNodes().forEach { node -> if (node.nodeService == serv) node.running = false } }
+    }
+}
+val service = Microservice("node-manager", listOf("node-manager"), endpoints = hashMapOf(
     // endpoint ot create a new node of the given template
     "create_node" to { json ->
         val template = templates[json.optString("template", "")]
@@ -29,7 +56,7 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
             val name = json.getString("name")
             templates.forEach { (_, template) ->
                 template.getNodes()
-                    .filter { it.oService?.name == name }
+                    .filter { it.nodeService?.service == name }
                     .apply { if (isNotEmpty()) success = true }
                     .forEach { template.removeNode(it) }
             }
@@ -56,8 +83,8 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
         // get node name for a balanced node for the given template
         val server = if (template != null) {
             val node = template.getBalancedNode()
-            if (node?.oService != null) {
-                node.oService!!.name
+            if (node?.nodeService != null) {
+                node.nodeService!!.service
             } else false
         } else null
 
@@ -71,7 +98,7 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
         val template = templates[json.optString("template", "")]
 
         // get nodes from the template
-        val info = template?.getNodes()?.mapNotNull { it.oService?.name } ?: listOf()
+        val info = template?.getNodes()?.mapNotNull { it.nodeService?.service } ?: listOf()
 
         // send back result
         JSONObject().put("servers", info)
@@ -110,24 +137,7 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
         // send back nothing
         JSONObject()
     }
-), onServiceOpen = { json ->
-    // if this is server node, add it to its respective node
-    val serverPort = json.optInt("serverPort", -1)
-    if (serverPort != -1 && json.has("template")) {
-        val template = templates[json.getString("template")] ?: return@Microservice
-        template.getNode(serverPort)?.let {
-            it.oService = OtherMicroservice(json)
-            it.info = json
-            it.running = true
-            logger.info("Node ${it.serverPort} connected!")
-        } ?: template.newNode(OtherMicroservice(json), json)
-    }
-}, onServiceClose = { json ->
-    // get given template and mark the node with the given port as closed
-    val serverPort = json.optInt("serverPort", -1)
-    if (serverPort != -1 && json.has("template"))
-        templates[json.getString("template")]?.getNode(serverPort)?.let { it.running = false }
-})
+), onServiceOpen = onServiceOpen, onServiceClose = onServiceClose)
 val options = hashMapOf(
     "templates_description_path" to "templates.json",
     "templates_directory_path" to "templates",
