@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Node manager working again">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Todolist.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todolist.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,8 +248,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [shadowJar]" />
+        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]" />
         <item itemvalue="Kotlin.TesterKt" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [jar]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]" />
@@ -464,7 +461,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680473195407</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Node manager working again">
+      <created>1680474966262</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1680474966262</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

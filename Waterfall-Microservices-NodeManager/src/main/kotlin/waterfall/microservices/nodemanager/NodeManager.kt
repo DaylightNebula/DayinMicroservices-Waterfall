@@ -20,7 +20,7 @@ val onServiceOpen: (serv: Service) -> Unit = { serv ->
             val template = templates[templateName]
             template?.let { template ->
                 template.getNode(port)?.let {
-                    it.nodeService = serv
+                    it.setService(serv)
                     it.info = json
                     it.running = true
                     logger.info("Node ${it.serverPort} connected!")

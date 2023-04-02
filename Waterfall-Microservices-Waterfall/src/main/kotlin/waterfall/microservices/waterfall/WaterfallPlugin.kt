@@ -17,7 +17,8 @@ import kotlin.math.log
 class WaterfallPlugin: Plugin(), Listener {
     // endpoints that can be edited by other plugins before service is set up
     private lateinit var service: Microservice
-    private val onNewService: (serv: Service) -> Unit = { serv -> newNode(serv) }
+    private val onServiceOpen: (serv: Service) -> Unit = { serv -> newNode(serv) }
+    private val onServiceClose: (serv: Service) -> Unit = { serv -> removeNode(serv) }
     val endpoints = hashMapOf<String, (json: JSONObject) -> JSONObject>(
         "move_player" to { json ->
             // get player by name or uuid, null if neither
@@ -93,7 +94,7 @@ class WaterfallPlugin: Plugin(), Listener {
         ProxyServer.getInstance().pluginManager.registerListener(this, this)
 
         // setup service
-        service = Microservice("waterfall", tags = listOf("waterfall"), endpoints = endpoints, onServiceOpen = onNewService)
+        service = Microservice("waterfall", tags = listOf("waterfall"), endpoints = endpoints, onServiceOpen = onServiceOpen, onServiceClose = onServiceClose)
         service.start()
     }
 
@@ -115,6 +116,14 @@ class WaterfallPlugin: Plugin(), Listener {
             servers[serv.service] = serverInfo
             println("Created new node ${serv.service}")
         } ?: logger.warning("Could not send info request to new node ${serv.service}")
+    }
+
+    private fun removeNode(serv: Service) {
+        // make sure this is a node
+        if (!serv.tags.contains("spigot")) return
+
+        // remove old server
+        servers.remove(serv.service)
     }
 
     @EventHandler

@@ -29,7 +29,7 @@
 - [x] Endpoint: Get all nodes of template
 - [x] Endpoint: Get all templates
 - [x] Update loop: Make sure all nodes are running by pinging them.  Close them if they do not respond for more than 5 pings.
-- [ ] Update player list on node end
+- [x] Update player list on node end
 - [ ] Template Settings
   - [ ] "auto avoid max player count": boolean, if a node with this template is approaching max player count, a new node is created.
   - [ ] "shutdown if no players": boolean, if true, a node will be closed if it has no players.
@@ -51,7 +51,3 @@
   - [x] Move player to template
   - [x] Move player to player with name
   - [x] Move player to player with uuid
-
-========= Service Updates =========
-- [ ] Consul
-- [ ]

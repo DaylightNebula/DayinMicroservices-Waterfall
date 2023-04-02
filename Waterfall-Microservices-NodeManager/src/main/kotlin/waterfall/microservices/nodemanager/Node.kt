@@ -17,9 +17,16 @@ class Node(
 ) {
     private val instanceDirectory = File(options["instances_directory_path"]!!, "tmp-${Random.nextInt(0, Int.MAX_VALUE)}")
 
+    fun setService(nodeService: Service) {
+        this.nodeService = nodeService
+
+        updateRecommended()
+    }
+
     init {
         if (nodeService == null) create()
         else {
+            setService(nodeService!!) // just trust me
             logger.info("Received node ${nodeService!!.service}, requesting info...")
             // get info
             service.request(nodeService!!.service, "info", JSONObject())?.whenComplete { json, _ ->
@@ -65,12 +72,12 @@ class Node(
 
     fun addPlayer(uuid: UUID) {
         players.add(uuid)
-        println("Added player $uuid")
+        updateRecommended()
     }
 
     fun removePlayer(uuid: UUID) {
         players.remove(uuid)
-        println("Removed player $uuid")
+        updateRecommended()
     }
 
     fun hasPlayer(uuid: UUID): Boolean {
@@ -83,5 +90,9 @@ class Node(
 
     fun stop() {
         nodeService?.service?.let { service.request(it, "stop", JSONObject()) }
+    }
+
+    fun updateRecommended() {
+
     }
 }
