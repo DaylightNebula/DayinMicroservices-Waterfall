@@ -1,5 +1,6 @@
 package waterfall.microservices.nodemanager
 
+import org.json.JSONObject
 import waterfall.microservices.OtherMicroservice
 import java.io.File
 import java.net.ServerSocket
@@ -16,7 +17,8 @@ class Node(
 ) {
     private val instanceDirectory = File(options["instances_directory_path"]!!, "tmp-${Random.nextInt(0, Int.MAX_VALUE)}")
     private val process: Process
-    internal lateinit var service: OtherMicroservice
+    internal var service: OtherMicroservice? = null
+    internal var info: JSONObject? = null
 
     init {
         // log the start

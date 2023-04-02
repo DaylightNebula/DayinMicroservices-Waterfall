@@ -8,17 +8,88 @@ import waterfall.microservices.OtherMicroservice
 import java.io.File
 
 val service = Microservice("node-manager", endpoints = hashMapOf(
+    // endpoint ot create a new node of the given template
+    "create_node" to { json ->
+        val template = templates[json.optString("template", "")]
+        val success = if (template != null) {
+            template.newNode()
+            true
+        } else false
+        JSONObject().put("success", success)
+    },
 
+    // endpoint to close a node with a given port
+    "close_node" to { json ->
+        var success = false
+
+        // if a name is given, remove that node
+        if (json.has("name")) {
+            val name = json.getString("name")
+            templates.forEach { (_, template) ->
+                template.getNodes()
+                    .filter { it.service?.name == name }
+                    .apply { if (isNotEmpty()) success = true }
+                    .forEach { template.removeNode(it) }
+            }
+        }
+        // otherwise, if a server port is given, remove that node
+        else if (json.has("serverPort")) {
+            val serverPort = json.getInt("serverPort")
+            templates.forEach { (_, template) ->
+                template.getNodes()
+                    .filter { it.serverPort == serverPort }
+                    .apply { if (isNotEmpty()) success = true }
+                    .forEach { template.removeNode(it) }
+            }
+        }
+
+        JSONObject().put("success", success)
+    },
+
+    // endpoint to move a player to a node
+    "get_node_from_template" to { json ->
+        // get template
+        val template = templates[json.optString("template", "")]
+
+        // get node name for a balanced node for the given template
+        val server = if (template != null) {
+            val node = template.getBalancedNode()
+            if (node?.service != null) {
+                node.service!!.name
+            } else false
+        } else null
+
+        // send back result
+        JSONObject().put("success", server != null).put("server", server)
+    },
+
+    // endpoint get all nodes of a given template
+    "get_nodes_from_template" to { json ->
+        // get template
+        val template = templates[json.optString("template", "")]
+
+        // get nodes from the template
+        val info = template?.getNodes()?.mapNotNull { it.service?.name } ?: listOf()
+
+        // send back result
+        JSONObject().put("servers", info)
+    },
+
+    // endpoint get all templates
+    "get_templates" to { _ ->
+        // send back list of active templates
+        JSONObject().put("templates", templates.values.map { it.name })
+    }
 ), onServiceOpen = { json ->
-    println("Service open $json")
     // if this is server node, add it to its respective node
     val serverPort = json.optInt("serverPort", -1)
     if (serverPort != -1 && json.has("template"))
-        templates[json.getString("template")]?.getNode(serverPort)?.let { it.service = OtherMicroservice(json); it.running = true; logger.info("Node ${it.serverPort} connected!") }
+        templates[json.getString("template")]?.getNode(serverPort)?.let { it.service = OtherMicroservice(json); it.info = json; it.running = true; logger.info("Node ${it.serverPort} connected!") }
 }, onServiceClose = { json ->
+    // get given template and mark the node with the given port as closed
     val serverPort = json.optInt("serverPort", -1)
     if (serverPort != -1 && json.has("template"))
-        templates[json.getString("template")]?.getNode(serverPort)?.let { it.service }
+        templates[json.getString("template")]?.getNode(serverPort)?.let { it.running = false }
 })
 val options = hashMapOf(
     "templates_description_path" to "templates.json",

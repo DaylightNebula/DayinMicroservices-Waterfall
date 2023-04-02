@@ -50,17 +50,26 @@ class Template(
 
     // create update loop
     private val updateLoop = loopingThread(1000) {
-        val neededNodes = minNodes - nodes.size
+        // if a server has closed, remove it
+        nodes.removeAll { it.service != null && !it.running }
 
         // if we have less nodes than necessary, create a new node
+        val neededNodes = minNodes - nodes.size
         if (neededNodes > 0) nodes.addAll(Array(neededNodes) { newNode() })
     }
 
     // create new node of this type
+    fun getNodes(): List<Node> = nodes
     fun getNode(serverPort: Int): Node? = nodes.firstOrNull { it.serverPort == serverPort }
     fun newNode(): Node = Node(this)
     fun removeNode(node: Node?) = node?.let { nodes.remove(node); node.stop() }
     fun removeNode(serverPort: Int) { removeNode(nodes.firstOrNull { it.serverPort == serverPort }) }
+
+    // functions for load balancing
+    fun getBalancedNode(): Node? {
+        // TODO balancing
+        return nodes.minByOrNull { it.players.size }
+    }
 
     fun dispose() {
         updateLoop.dispose()

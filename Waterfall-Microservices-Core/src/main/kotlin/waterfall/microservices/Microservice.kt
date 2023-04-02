@@ -99,8 +99,10 @@ class Microservice(
                 .completeOnTimeout(JSONObject().put("timeout", "true"), 1000, TimeUnit.MILLISECONDS)
                 .whenComplete { json, _ ->
                     // if status is not ok, remove the service
-                    if (json.optString("status", "no") != "ok")
+                    if (json.optString("status", "no") != "ok") {
                         otherServices.remove(oService.uuid)
+                        onServiceClose(oService.info)
+                    }
                 }
         }
     }
@@ -237,11 +239,12 @@ class Microservice(
     }
 }
 
-data class OtherMicroservice(val name: String, val uuid: UUID, val port: Int, val endpoints: List<String>) {
+data class OtherMicroservice(val name: String, val uuid: UUID, val port: Int, val endpoints: List<String>, val info: JSONObject) {
     constructor(json: JSONObject): this(
         json.getString("name"),
         UUID.fromString(json.getString("uuid")),
         json.getInt("port"),
-        json.getJSONArray("endpoints").map { it as String }
+        json.getJSONArray("endpoints").map { it as String },
+        json
     )
 }

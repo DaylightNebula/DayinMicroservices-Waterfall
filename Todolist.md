@@ -20,33 +20,26 @@
 - [x] Endpoint: set initial node (this is the node that players initially connect too, and this is the fallback server)
 
 ============ Node  Service ============
-- [ ] Endpoint: Create node
+- [x] Endpoint: Create node
   - Create node of a given type
-- [ ] Endpoint: Stop node
+- [x] Endpoint: Stop node
   - Move all players to initial node before stopping a node
-- [ ] Endpoint: Add player to Node
-  - Called when a node gets a player
-  - Used to keep track who is on a node and how many players are on each node
-- [ ] Endpoint: Remove player from Node
-  - See above
-- [ ] Endpoint: Move player to template
+- [x] Endpoint: Get node from template
   - Find a node with the given template, and send the player too it
-- [ ] Endpoint: Node started
-  - Node calls this endpoint when they start
-- [ ] Endpoint: Node stopped
-  - Node calls this endpoint when they stop
-- [ ] Update loop: Make sure all nodes are running by pinging them.  Close them if they do not respond for more than 5 pings.
+- [x] Endpoint: Get all nodes of template
+- [x] Endpoint: Get all templates
+- [x] Update loop: Make sure all nodes are running by pinging them.  Close them if they do not respond for more than 5 pings.
 - [ ] Template Settings
-  - "auto avoid max player count": boolean, if a node with this template is approaching max player count, a new node is created.
-  - "overflow": enum, describes the overflow behavior of the template.
+  - [ ] "auto avoid max player count": boolean, if a node with this template is approaching max player count, a new node is created.
+  - [ ] "overflow": enum, describes the overflow behavior of the template.
     - "allow": if no nodes with this template have an available slot, another one will be picked.
     - "wait": players are put into a queue that waits until a slot is open in a node or another node with this template is created.
     - "kick": kick the player if there are no active slots.
     - "cancel": simply do not move the player to the template if no slot can be found.
-  - "shutdown if no players": boolean, if true, a node will be closed if it has no players.
-  - "max players for merge": int, if greater than 0, if a node stays at or below the given number of players, all players will be moved to another node with this template if it has space.
-  - "min number nodes": int, the minimum number of nodes required for this template
-  - "default": boolean, if true, a node with this template can be a initial node
+  - [ ] "shutdown if no players": boolean, if true, a node will be closed if it has no players.
+  - [ ] "max players for merge": int, if greater than 0, if a node stays at or below the given number of players, all players will be moved to another node with this template if it has space.
+  - [ ] "min number nodes": int, the minimum number of nodes required for this template
+  - [ ] "default": boolean, if true, a node with this template can be a initial node
 
 =========== Node Plugin ===========
 - [x] When a player joins or leaves, update any service with a player join or quit endpoints
