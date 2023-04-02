@@ -2,7 +2,6 @@ package waterfall.microservices.nodemanager
 
 import mu.KotlinLogging
 import org.json.JSONObject
-import waterfall.microservices.OtherMicroservice
 import waterfall.microservices.loopingThread
 import java.io.File
 
@@ -15,9 +14,6 @@ class Template(
 
     // if true, when a node would reach its max player count soon, a new node will be created
     val newNodeAtPlayerCount: Int = 0,
-
-    // determines how the template handles when more players try to join a template with all nodes completely full
-    val overflowBehavior: TemplateOverflow = TemplateOverflow.WAIT,
 
     // if true and there are more nodes around than the specified minimum, a node will be shutdown if it has no players
     val shutdownNoPlayers: Boolean = false,
@@ -40,7 +36,6 @@ class Template(
         directory,
         json.optInt("max_players", 20),
         json.optInt("new_node_at_player_count", 0),
-        TemplateOverflow.valueOf(json.optString("overflow_behavior", "wait").uppercase()),
         json.optBoolean("shutdown_no_players", false),
         json.optInt("max_players_merge", 0),
         json.optInt("min_nodes", 0),
@@ -75,4 +70,3 @@ class Template(
         updateLoop.dispose()
     }
 }
-enum class TemplateOverflow { ALLOW, KICK, WAIT, CANCEL }
