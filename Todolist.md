@@ -50,3 +50,8 @@
   - Add information like directory, active players, and active plugins
 - [x] Endpoint: Get all players
 - [x] Template argument with default
+- [x] Helper functions
+  - [x] Move player to node
+  - [x] Move player to template
+  - [x] Move player to player with name
+  - [x] Move player to player with uuid

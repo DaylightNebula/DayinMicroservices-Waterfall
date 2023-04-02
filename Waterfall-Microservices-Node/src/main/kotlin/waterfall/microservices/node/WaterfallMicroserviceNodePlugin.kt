@@ -12,6 +12,7 @@ import org.json.JSONObject
 import waterfall.microservices.Microservice
 import java.io.File
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
     // list of endpoints
@@ -85,6 +86,58 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
                 .put("player", event.player.getJsonInfo())
             quitServices.forEach { service.request(it.uuid, "player_quit", data) }
         }
+    }
+
+    fun movePlayerToServer(server: String): CompletableFuture<Boolean> {
+        val future = CompletableFuture<Boolean>()
+
+        // call move player, if success, mark future complete
+        service.request("waterfall", "move_player", JSONObject().put("server", server))?.whenComplete { json, _ ->
+            future.complete(json.optBoolean("success", false))
+        } ?: future.complete(false)
+
+        return future
+    }
+
+    fun movePlayerToTemplate(template: String): CompletableFuture<Boolean> {
+        val future = CompletableFuture<Boolean>()
+
+        // ask the node manager for the server
+        service.request("node-manager", "get_node_from_template", JSONObject("template", template))?.whenComplete { json, _ ->
+            // if the request succeeded, move the player, otherwise, just complete false
+            val success = json.optBoolean("success", false)
+            if (success) {
+
+                // ask to move the player and pass back the result
+                movePlayerToServer(json.optString("server", "")).whenComplete { result, _ ->
+                    future.complete(result)
+                }
+
+            } else future.complete(false)
+        } ?: future.complete(false)
+
+        return future
+    }
+
+    // functions to move a player to another player
+    fun movePlayerToPlayer(playerName: String): CompletableFuture<Boolean> = movePlayerToPlayer(JSONObject().put("name", playerName))
+    fun movePlayerToPlayer(uuid: UUID): CompletableFuture<Boolean> = movePlayerToPlayer(JSONObject().put("uuid", uuid))
+    private fun movePlayerToPlayer(json: JSONObject): CompletableFuture<Boolean> {
+        val future = CompletableFuture<Boolean>()
+
+        // ask the waterfall service for player info
+        service.request("waterfall", "get_player_info", json)?.whenComplete { json, _ ->
+            // get the server node from the input json
+            val server = json.optString("node", "")
+
+            // if a server was given, move the player to the server, completing with the result, otherwise, complete null
+            if (server.isNotBlank()) {
+                movePlayerToServer(server).whenComplete { bool, _ -> future.complete(bool) }
+            } else future.complete(false)
+        }
+
+
+        return future
     }
 }
 
