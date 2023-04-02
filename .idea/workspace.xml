@@ -4,14 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Updated Todolist.md">
+    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Stuff">
+      <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/ConsulFeature.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Tester.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Todolist.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todolist.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-CLIInterface/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-CLIInterface/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-CLIInterface/src/main/kotlin/waterfall/microservices/cliinterface/CLIInterface.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-CLIInterface/src/main/kotlin/waterfall/microservices/cliinterface/CLIInterface.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Microservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Microservice.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,9 +91,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Kotlin File" />
         <option value="Kotlin Object" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -142,7 +144,7 @@
       <recent name="waterfall.microservices" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.NodeManagerKt">
+  <component name="RunManager" selected="Kotlin.TesterKt">
     <configuration name="Waterfall-Microservices:Waterfall-Microservices-Node [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -242,8 +244,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TesterKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="waterfall.microservices.TesterKt" />
+      <module name="Waterfall-Microservices.Waterfall-Microservices-Core.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.TesterKt" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [shadowJar]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [jar]" />
@@ -428,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680423140081</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Stuff">
+      <created>1680461057469</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1680461057469</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -465,6 +482,7 @@
     <MESSAGE value="Removed template overflow" />
     <MESSAGE value="Node Manager can now pick up nodes that are running" />
     <MESSAGE value="Updated Todolist.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Todolist.md" />
+    <MESSAGE value="Stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Stuff" />
   </component>
 </project>

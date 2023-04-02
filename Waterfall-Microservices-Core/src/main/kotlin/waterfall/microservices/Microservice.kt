@@ -1,5 +1,14 @@
 package waterfall.microservices
 
+import com.orbitz.consul.Consul
+import com.orbitz.consul.HealthClient
+import com.orbitz.consul.model.agent.Check
+import com.orbitz.consul.model.agent.ImmutableCheck
+import com.orbitz.consul.model.agent.ImmutableRegCheck
+import com.orbitz.consul.model.agent.ImmutableRegistration
+import com.orbitz.consul.model.agent.Registration
+import com.orbitz.consul.model.health.HealthCheck
+import com.orbitz.consul.model.health.Service
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -21,7 +30,6 @@ import java.nio.ByteBuffer
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
-import javax.print.attribute.standard.MediaSize.Other
 import kotlin.collections.HashMap
 
 class Microservice(
@@ -51,73 +59,36 @@ class Microservice(
 
     // server stuff
     private lateinit var server: NettyApplicationEngine
+    private lateinit var consul: Consul
 
     // other services
-    private val otherServices = hashMapOf<UUID, OtherMicroservice>()
+//    private val otherServices = hashMapOf<UUID, OtherMicroservice>()
+//    private val servicesChecker = loopingThread(1000) {
+//        otherServices.forEach { (_, oService) ->
+//            request(oService, "", JSONObject())
+//                .completeOnTimeout(JSONObject().put("timeout", "true"), 1000, TimeUnit.MILLISECONDS)
+//                .whenComplete { json, _ ->
+//                    // if status is not ok, remove the service
+//                    if (json.optString("status", "no") != "ok") {
+//                        otherServices.remove(oService.uuid)
+//                        onServiceClose(oService.info)
+//                    }
+//                }
+//        }
+//    }
 
-    // broadcast checker, runs once per second, sees if any new threads where created or destroyed by listening to the multicast group packets
-    private val broadcastChecker = loopingThread(1000) {
-        // read packet length
-        val sizeBuffer = ByteArray(4)
-        val sizePacket = DatagramPacket(sizeBuffer, 4)
-        multicastSocket.receive(sizePacket)
-        val numBytes = ByteBuffer.wrap(sizeBuffer).int
+//    fun getOtherServices(): Collection<OtherMicroservice> = otherServices.values
 
-        if (numBytes > 10000) {
-            logger.warn("A packet exceeded the limit of 10000 characters, could just be startup buggyness $numBytes")
-            return@loopingThread
-        }
-
-        // read packet
-        val buffer = ByteArray(numBytes)
-        val packet = DatagramPacket(buffer, buffer.size)
-        multicastSocket.receive(packet)
-
-        // convert packet to json, cancel if json could not be read
-        val json = try { JSONObject(String(packet.data)) } catch (ex: Exception) { return@loopingThread }
-
-        // handle join and close
-        when (val status = json.optString("status") ?: "NOT_GIVEN") {
-            "join" -> {
-                // make sure new service is not a new service
-                val servName = json.getString("name")
-                val servUUID = UUID.fromString(json.getString("uuid"))
-                if (uuid != servUUID && !otherServices.any { it.key == servUUID && it.value.name == servName }) joinServices(servUUID, OtherMicroservice(json), json)
-            }
-            "close" -> {
-                // remove service
-                val uuid = UUID.fromString(json.getString("uuid"))
-                val removed = otherServices.remove(uuid)
-                if (removed != null) onServiceClose(json)
-            }
-            else -> throw IllegalArgumentException("Unknown status: $status")
-        }
-    }
-    private val servicesChecker = loopingThread(1000) {
-        otherServices.forEach { (_, oService) ->
-            request(oService, "", JSONObject())
-                .completeOnTimeout(JSONObject().put("timeout", "true"), 1000, TimeUnit.MILLISECONDS)
-                .whenComplete { json, _ ->
-                    // if status is not ok, remove the service
-                    if (json.optString("status", "no") != "ok") {
-                        otherServices.remove(oService.uuid)
-                        onServiceClose(oService.info)
-                    }
-                }
-        }
-    }
-
-    fun getOtherServices(): Collection<OtherMicroservice> = otherServices.values
-
-    private fun joinServices(uuid: UUID, otherService: OtherMicroservice, json: JSONObject) {
-        // save service
-        otherServices[uuid] = otherService
-
-        // send it a join packet
-        broadcastPacket(getJoinPacket().toString(0).toByteArray())
-
-        onServiceOpen(json)
-    }
+//    private fun joinServices(uuid: UUID, otherService: OtherMicroservice, json: JSONObject) {
+//        // save service
+//        otherServices[uuid] = otherService
+//
+//        // send it a join packet
+//        broadcastPacket(getJoinPacket().toString(0).toByteArray())
+//
+//        onServiceOpen(json)
+//    }
+    fun getServices(): Collection<Service> { return consul.agentClient().services.values }
 
     // just start the server on this thread
     override fun run() {
@@ -127,20 +98,44 @@ class Microservice(
         // create microservice server and endpoints
         setupPort()
         setupDefaults()
-        server = embeddedServer(Netty, port = port, module = module).start(wait = false)
+        server = embeddedServer(Netty, port = port, module = module)
+
+        // setup health check
+        val check = ImmutableRegCheck.builder()
+            .http("http://host.docker.internal:$port/")
+            .interval("10s")
+            .timeout("1s")
+            .deregisterCriticalServiceAfter("1s")
+            .build()
+
+        // setup consul
+        consul = Consul.builder().withUrl("http://localhost:8500").build()
+        consul.agentClient().register(
+            ImmutableRegistration.builder()
+                .id(name)
+                .name(name)
+                .address("localhost")
+                .port(port)
+                .check(check)
+                .build()
+        )
+
+        // start server
+        server.start(wait = false)
+        println("Created with port $port")
 
         // broadcast join packet
         broadcastPacket(getJoinPacket().toString(0).toByteArray())
     }
 
     // make request to services
-    fun request(target: String, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>?
-        { return request(otherServices.values.firstOrNull { it.name == target } ?: return null, endpoint, json) }
-    fun request(target: UUID, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>?
-        { return request(otherServices[target] ?: return null, endpoint, json) }
-    fun request(target: OtherMicroservice, endpoint: String, json: JSONObject): CompletableFuture<JSONObject> {
-        return Requester.rawRequest(logger, "http://localhost:${target.port}/$endpoint", json)
-    }
+//    fun request(target: String, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>?
+//        { return request(otherServices.values.firstOrNull { it.name == target } ?: return null, endpoint, json) }
+//    fun request(target: UUID, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>?
+//        { return request(otherServices[target] ?: return null, endpoint, json) }
+//    fun request(target: OtherMicroservice, endpoint: String, json: JSONObject): CompletableFuture<JSONObject> {
+//        return Requester.rawRequest(logger, "http://localhost:${target.port}/$endpoint", json)
+//    }
 
     // function that sends a byte array to a given socket
     private fun broadcastPacket(data: ByteArray) {
@@ -209,7 +204,7 @@ class Microservice(
                     val json =
                         try { JSONObject(jsonString) }
                         catch (ex: Exception) {
-                            this.call.respondText("")
+                            if (name == "") this.call.respondText("{}") else this.call.respondText("")
                             return@get
                         }
 
@@ -231,8 +226,7 @@ class Microservice(
     // function that stops everything
     fun dispose(hidden: Boolean = false) {
         if (!hidden) broadcastPacket(getClosePacket().toString(0).toByteArray())
-        broadcastChecker.dispose()
-        servicesChecker.dispose()
+        consul.agentClient().deregister(name)
         server.stop(1000, 1000)
         logger.info { "Shutdown $name, hidden = $hidden" }
         super.join()

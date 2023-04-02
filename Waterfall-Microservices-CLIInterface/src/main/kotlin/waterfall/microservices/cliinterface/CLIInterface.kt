@@ -36,76 +36,76 @@ fun runCommand() {
 
     // run command
     when (tokens.first()) {
-        "request" -> {
-            // make sure we have enough args
-            if (tokens.size < 4) {
-                println("Format: request <target uuid or name> <endpoint> <json>")
-                return
-            }
-
-            // make sure target is valid
-            val targetUUID = try { UUID.fromString(tokens[1]) } catch (ex: Exception) { null }
-            val targetService =
-                if (targetUUID != null)
-                    service.getOtherServices().firstOrNull { it.uuid == targetUUID }
-                else
-                    service.getOtherServices().firstOrNull { it.name.equals(tokens[1], ignoreCase = true) }
-            if (targetService == null) {
-                println("No service could be identified with ${tokens[1]}")
-                return
-            }
-
-            // make sure endpoint is valid
-            val endpoint = tokens[2]
-            if (!targetService.endpoints.contains(endpoint)) {
-                println("No endpoint named $endpoint, options are ${targetService.endpoints}")
-                return
-            }
-
-            // make sure json is valid
-            val json = try { JSONObject(tokens[3]) } catch (ex: Exception) { null }
-            if (json == null) {
-                println("Json is not valid!")
-                return
-            }
+//        TODO "request" -> {
+//            // make sure we have enough args
+//            if (tokens.size < 4) {
+//                println("Format: request <target uuid or name> <endpoint> <json>")
+//                return
+//            }
+//
+//            // make sure target is valid
+//            val targetUUID = try { UUID.fromString(tokens[1]) } catch (ex: Exception) { null }
+//            val targetService =
+//                if (targetUUID != null)
+//                    service.getOtherServices().firstOrNull { it.uuid == targetUUID }
+//                else
+//                    service.getOtherServices().firstOrNull { it.name.equals(tokens[1], ignoreCase = true) }
+//            if (targetService == null) {
+//                println("No service could be identified with ${tokens[1]}")
+//                return
+//            }
+//
+//            // make sure endpoint is valid
+//            val endpoint = tokens[2]
+//            if (!targetService.endpoints.contains(endpoint)) {
+//                println("No endpoint named $endpoint, options are ${targetService.endpoints}")
+//                return
+//            }
+//
+//            // make sure json is valid
+//            val json = try { JSONObject(tokens[3]) } catch (ex: Exception) { null }
+//            if (json == null) {
+//                println("Json is not valid!")
+//                return
+//            }
 
             // send request
-            service.request(
-                targetService.uuid,
-                tokens[2],
-                json
-            )!!.whenComplete { json, _ ->
-                println("Response ${json.toString(4)}")
-            }
+//            TODO service.request(
+//                targetService.uuid,
+//                tokens[2],
+//                json
+//            )!!.whenComplete { json, _ ->
+//                println("Response ${json.toString(4)}")
+//            }
 //            {
 //                println("Response: ${it?.toString(4)}")
 //            }
-        }
-        "info" -> {
-            if (tokens.isEmpty()) {
-                println("Format: info <target service uuid or name>")
-                return
-            }
-
-            // make sure target is valid
-            val targetUUID = try { UUID.fromString(tokens[1]) } catch (ex: Exception) { null }
-            val targetService =
-                if (targetUUID != null)
-                    service.getOtherServices().firstOrNull { it.uuid == targetUUID }
-                else
-                    service.getOtherServices().firstOrNull { it.name.equals(tokens[1], ignoreCase = true) }
-            if (targetService == null) {
-                println("No service could be identified with ${tokens[1]}")
-                return
-            }
-
-            // print info for the target service
-            println("Name: ${targetService.name}")
-            println("UUID: ${targetService.uuid}")
-            println("Port: ${targetService.port}")
-            println("Endpoints: ${targetService.endpoints}")
-        }
-        "services" -> println("Current services: ${service.getOtherServices().map { it.name }}")
+//        }
+//        TODO "info" -> {
+//            if (tokens.isEmpty()) {
+//                println("Format: info <target service uuid or name>")
+//                return
+//            }
+//
+//            // make sure target is valid
+//            val targetUUID = try { UUID.fromString(tokens[1]) } catch (ex: Exception) { null }
+//            val targetService =
+//                if (targetUUID != null)
+//                    service.getOtherServices().firstOrNull { it.uuid == targetUUID }
+//                else
+//                    service.getOtherServices().firstOrNull { it.name.equals(tokens[1], ignoreCase = true) }
+//            if (targetService == null) {
+//                println("No service could be identified with ${tokens[1]}")
+//                return
+//            }
+//
+//            // print info for the target service
+//            println("Name: ${targetService.name}")
+//            println("UUID: ${targetService.uuid}")
+//            println("Port: ${targetService.port}")
+//            println("Endpoints: ${targetService.endpoints}")
+//        }
+        "services" -> println("Current services: ${service.getServices().map { it.service }}")
         "stop" -> running = false
         else -> println("Invalid/unknown command \"$command\"")
     }

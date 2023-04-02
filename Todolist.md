@@ -51,3 +51,7 @@
   - [x] Move player to template
   - [x] Move player to player with name
   - [x] Move player to player with uuid
+
+========= Service Updates =========
+- [ ] Consul
+- [ ]
