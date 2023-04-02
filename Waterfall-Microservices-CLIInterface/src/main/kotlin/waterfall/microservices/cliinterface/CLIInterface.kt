@@ -6,7 +6,7 @@ import java.lang.StringBuilder
 import java.lang.Thread.sleep
 import java.util.*
 
-val service = Microservice("cli-interface")
+val service = Microservice("cli-interface", tags = listOf("cli"))
 var running = true
 
 fun main() {

@@ -1,28 +1,23 @@
 package waterfall.microservices.waterfall
 
-import net.md_5.bungee.api.CommandSender
+import com.orbitz.consul.model.health.Service
 import net.md_5.bungee.api.ProxyServer
-import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.config.ServerInfo
-import net.md_5.bungee.api.event.LoginEvent
-import net.md_5.bungee.api.event.PostLoginEvent
-import net.md_5.bungee.api.event.PreLoginEvent
 import net.md_5.bungee.api.event.ServerConnectEvent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.api.plugin.Plugin
 import net.md_5.bungee.event.EventHandler
 import org.json.JSONObject
 import waterfall.microservices.Microservice
-import waterfall.microservices.OtherMicroservice
-import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.util.*
+import kotlin.math.log
 
 class WaterfallPlugin: Plugin(), Listener {
     // endpoints that can be edited by other plugins before service is set up
     private lateinit var service: Microservice
-    private val onNewService: (json: JSONObject) -> Unit = { json -> newNode(json) }
+    private val onNewService: (serv: Service) -> Unit = { serv -> newNode(serv) }
     val endpoints = hashMapOf<String, (json: JSONObject) -> JSONObject>(
         "move_player" to { json ->
             // get player by name or uuid, null if neither
@@ -37,7 +32,7 @@ class WaterfallPlugin: Plugin(), Listener {
             // if both are not null, move the player to the server info
             val success =
                 if (player != null && serverInfo != null) {
-                    player.connect(serverInfo.first)
+                    player.connect(serverInfo)
                     true
                 } else false
 
@@ -60,7 +55,7 @@ class WaterfallPlugin: Plugin(), Listener {
             // if we have a player send back info otherwise send back nothing
             if (player != null)
                 JSONObject()
-                    .put("node", servers.values.firstOrNull { it.first.socketAddress == player.server.socketAddress }?.second?.name ?: servers.values.first().second.name)
+                    .put("node", servers.values.firstOrNull { it.socketAddress == player.server.socketAddress }?.name ?: servers.values.first().name)
                     .put("uuid", player.uniqueId)
                     .put("name", player.name)
             else JSONObject()
@@ -90,15 +85,15 @@ class WaterfallPlugin: Plugin(), Listener {
     )
 
     // node stuff
-    private val servers = hashMapOf<String, Pair<ServerInfo, OtherMicroservice>>()
-    private var initialServer: Pair<ServerInfo, OtherMicroservice>? = null
+    private val servers = hashMapOf<String, ServerInfo>()
+    private var initialServer: ServerInfo? = null
 
     override fun onEnable() {
         // setup listener
         ProxyServer.getInstance().pluginManager.registerListener(this, this)
 
         // setup service
-        service = Microservice("waterfall", endpoints = endpoints, onServiceOpen = onNewService)
+        service = Microservice("waterfall", tags = listOf("waterfall"), endpoints = endpoints, onServiceOpen = onNewService)
         service.start()
     }
 
@@ -106,26 +101,27 @@ class WaterfallPlugin: Plugin(), Listener {
         service.dispose()
     }
 
-    private fun newNode(json: JSONObject) {
+    private fun newNode(serv: Service) {
         // make sure this is a node
-        if (!json.has("port") || !json.has("serverPort")) return
+        if (!serv.tags.contains("spigot")) return
 
-        // create new server info
-        val port = json.getInt("serverPort")
-        val address = InetSocketAddress("localhost", port)
-        val serverInfo = ProxyServer.getInstance().constructServerInfo(json.getString("name"), address, "", false)
-//        ProxyServer.getInstance().config.addServer(serverInfo)
+        // send info request
+        service.request(serv.service, "info", JSONObject())?.whenComplete { json, error ->
+            // create new server info
+            val address = InetSocketAddress(serv.address, json.getInt("serverPort"))
+            val serverInfo = ProxyServer.getInstance().constructServerInfo(serv.service, address, "", false)
 
-        // save server info
-        servers[json.getString("name")] = Pair(serverInfo, OtherMicroservice(json))
-        println("Created new node $json")
+            // save server info
+            servers[serv.service] = serverInfo
+            println("Created new node ${serv.service}")
+        } ?: logger.warning("Could not send info request to new node ${serv.service}")
     }
 
     @EventHandler
     fun onLogin(event: ServerConnectEvent) {
         // send player to initial server
-        event.target = initialServer?.first
-            ?: servers.values.firstOrNull()?.first
+        event.target = initialServer
+            ?: servers.values.firstOrNull()
                     ?: return
     }
 }

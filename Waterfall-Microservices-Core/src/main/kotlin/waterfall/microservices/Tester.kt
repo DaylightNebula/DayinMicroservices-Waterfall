@@ -2,7 +2,7 @@ package waterfall.microservices
 
 import java.lang.Thread.sleep
 
-val service = Microservice("tester")
+val service = Microservice("tester", listOf())
 fun main() {
     service.start()
 

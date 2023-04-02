@@ -55,8 +55,9 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
     // create microservice on start
     override fun onEnable() {
         Bukkit.getPluginManager().registerEvents(this, this)
-        service = Microservice("node-${rootDir.name}", endpoints = endpoints)
+        service = Microservice("node-${rootDir.name}", listOf("spigot"), endpoints = endpoints)
         service.start()
+        println("Started service named ${service.name}")
     }
 
     // close node service when the plugin shuts down
@@ -64,32 +65,26 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
         service.dispose()
     }
 
-    // when a player joins this node, ping all services with a join endpoint telling them that the player joined this node
+    // when a player joins this node, report to node manager that the player left
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        val joinServices = service.getOtherServices().filter { it.endpoints.contains("player_join") }
-        if (joinServices.isNotEmpty()) {
-            val data = JSONObject()
-                .put("state", "join")
-                .put("node", rootDir.name)
-                .put("serviceUUID", service.uuid)
-                .put("player", event.player.getJsonInfo())
-            joinServices.forEach { service.request(it.uuid, "player_join", data) }
-        }
+        val data = JSONObject()
+            .put("state", "join")
+            .put("node", rootDir.name)
+            .put("serviceUUID", service.uuid)
+            .put("player", event.player.getJsonInfo())
+        service.request("node-manager", "player_join", data)
     }
 
     // when a player leaves this node, ping all services with a quit endpoint telling them that the player left this node
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
-        val quitServices = service.getOtherServices().filter { it.endpoints.contains("player_quit") }
-        if (quitServices.isNotEmpty()) {
-            val data = JSONObject()
-                .put("state", "quit")
-                .put("node", rootDir.name)
-                .put("serviceUUID", service.uuid)
-                .put("player", event.player.getJsonInfo())
-            quitServices.forEach { service.request(it.uuid, "player_quit", data) }
-        }
+        val data = JSONObject()
+            .put("state", "quit")
+            .put("node", rootDir.name)
+            .put("serviceUUID", service.uuid)
+            .put("player", event.player.getJsonInfo())
+        service.request("node-manager", "player_join", data)
     }
 
     fun movePlayerToServer(server: String): CompletableFuture<Boolean> {

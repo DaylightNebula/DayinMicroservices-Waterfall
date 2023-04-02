@@ -39,5 +39,5 @@ tasks.getByName<Jar>("jar") {
 }
 
 tasks.getByName<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
-    destinationDirectory.set(file("../templates/hub/plugins"))
+    destinationDirectory.set(file("../testserver/plugins"))
 }

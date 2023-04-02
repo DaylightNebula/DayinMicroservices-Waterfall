@@ -21,6 +21,7 @@ import java.util.concurrent.CompletableFuture
 class Microservice(
     // name and id for the service, these are used to identify the
     private val name: String,
+    private val tags: List<String>,
     val uuid: UUID = UUID.randomUUID(),
 
     // port of this service, if zero, a port will be found automatically
@@ -39,43 +40,39 @@ class Microservice(
     private val logger: KLogger = KotlinLogging.logger("Node ${name.ifBlank { uuid.toString() }}"),
 
     // callbacks for when a service starts and closes
-    private val onServiceOpen: (json: JSONObject) -> Unit = {},
-    private val onServiceClose: (json: JSONObject) -> Unit = {}
+    private val onServiceOpen: (serv: Service) -> Unit = {},
+    private val onServiceClose: (serv: Service) -> Unit = {}
 ): Thread() {
 
     // server stuff
     private lateinit var server: NettyApplicationEngine
     private lateinit var consul: Consul
 
-    // other services
-//    private val otherServices = hashMapOf<UUID, OtherMicroservice>()
-//    private val servicesChecker = loopingThread(1000) {
-//        otherServices.forEach { (_, oService) ->
-//            request(oService, "", JSONObject())
-//                .completeOnTimeout(JSONObject().put("timeout", "true"), 1000, TimeUnit.MILLISECONDS)
-//                .whenComplete { json, _ ->
-//                    // if status is not ok, remove the service
-//                    if (json.optString("status", "no") != "ok") {
-//                        otherServices.remove(oService.uuid)
-//                        onServiceClose(oService.info)
-//                    }
-//                }
-//        }
-//    }
+    // service cache
+    private var serviceCache = mutableMapOf<String, Service>()
+    private val serviceCacheThread = loopingThread(1000) {
+        if (!this::consul.isInitialized) return@loopingThread
+        val curServices = consul.agentClient().services
 
-//    fun getOtherServices(): Collection<OtherMicroservice> = otherServices.values
+        // check for any new services (anything in new service list that isn't in the cache)
+        val newServices = curServices.filter { !serviceCache.contains(it.key) }
+        newServices.forEach {
+            serviceCache[it.key] = it.value
+            onServiceOpen(it.value)
+        }
 
-//    private fun joinServices(uuid: UUID, otherService: OtherMicroservice, json: JSONObject) {
-//        // save service
-//        otherServices[uuid] = otherService
-//
-//        // send it a join packet
-//        broadcastPacket(getJoinPacket().toString(0).toByteArray())
-//
-//        onServiceOpen(json)
-//    }
-    fun getService(name: String): Service? { return consul.agentClient().services[name] }
-    fun getServices(): Collection<Service> { return consul.agentClient().services.values }
+        // check if there are any services that closed
+        val oldServices = serviceCache.filter { !curServices.contains(it.key) }
+        oldServices.forEach {
+            serviceCache.remove(it.key)
+            onServiceClose(it.value)
+        }
+    }
+
+    // get service functions
+    fun getService(name: String): Service? { return serviceCache[name] }
+    fun getServices(): Collection<Service> { return serviceCache.values }
+    fun getServiceWithTag(tag: String): Service? { return serviceCache.values.firstOrNull { it.tags.contains(tag) } }
 
     // just start the server on this thread
     override fun run() {
@@ -100,6 +97,7 @@ class Microservice(
         consul.agentClient().register(
             ImmutableRegistration.builder()
                 .id(name)
+                .tags(tags)
                 .name(name)
                 .address("localhost")
                 .port(port)
@@ -117,7 +115,7 @@ class Microservice(
 
     // make request to services
     fun request(name: String, endpoint: String, json: JSONObject): CompletableFuture<JSONObject>? {
-        val service = consul.agentClient().services[name] ?: return null
+        val service = getService(name) ?: return null
         val address = "http://${service.address}:${service.port}/$endpoint"
         return Requester.rawRequest(logger, address, json)
     }
@@ -211,6 +209,7 @@ class Microservice(
     // function that stops everything
     fun dispose(hidden: Boolean = false) {
         if (!hidden) broadcastPacket(getClosePacket().toString(0).toByteArray())
+        serviceCacheThread.dispose()
         consul.agentClient().deregister(name)
         server.stop(1000, 1000)
         logger.info { "Shutdown $name, hidden = $hidden" }

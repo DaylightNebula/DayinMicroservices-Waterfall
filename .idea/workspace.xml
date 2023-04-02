@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Start to consul stuff">
+    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Consul micro services">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-CLIInterface/src/main/kotlin/waterfall/microservices/cliinterface/CLIInterface.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-CLIInterface/src/main/kotlin/waterfall/microservices/cliinterface/CLIInterface.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/ConsulFeature.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Microservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Microservice.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Tester.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Tester.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +144,7 @@
       <recent name="waterfall.microservices" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.CLIInterfaceKt">
+  <component name="RunManager" selected="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]">
     <configuration name="Waterfall-Microservices:Waterfall-Microservices-Node [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -247,9 +253,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.TesterKt" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [shadowJar]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]" />
+        <item itemvalue="Kotlin.TesterKt" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [jar]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]" />
       </list>
@@ -446,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680470235046</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Consul micro services">
+      <created>1680471432222</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1680471432222</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -485,6 +498,7 @@
     <MESSAGE value="Updated Todolist.md" />
     <MESSAGE value="Stuff" />
     <MESSAGE value="Start to consul stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="Start to consul stuff" />
+    <MESSAGE value="Consul micro services" />
+    <option name="LAST_COMMIT_MESSAGE" value="Consul micro services" />
   </component>
 </project>
