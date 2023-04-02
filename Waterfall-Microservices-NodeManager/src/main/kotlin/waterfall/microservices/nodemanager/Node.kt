@@ -5,22 +5,24 @@ import waterfall.microservices.OtherMicroservice
 import java.io.File
 import java.net.ServerSocket
 import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.concurrent.thread
 import kotlin.random.Random
 
 class Node(
-    template: Template,
+    val template: Template,
     val players: MutableList<UUID> = mutableListOf(),
     var running: Boolean = false,
-    var serverPort: Int = 0
+    var serverPort: Int = 0,
+    internal var oService: OtherMicroservice? = null,
+    internal var info: JSONObject? = null
 ) {
     private val instanceDirectory = File(options["instances_directory_path"]!!, "tmp-${Random.nextInt(0, Int.MAX_VALUE)}")
-    private val process: Process
-    internal var service: OtherMicroservice? = null
-    internal var info: JSONObject? = null
 
     init {
+        if (oService == null) create()
+        else println("Received node ${oService!!.name}")
+    }
+
+    fun create() {
         // log the start
         template.logger.info("Creating node from template ${template.name}...")
 
@@ -47,24 +49,13 @@ class Node(
         )
 
         // run start file
-        process = ProcessBuilder("cmd", "/C", startFile.absolutePath)
+        ProcessBuilder("cmd", "/C", startFile.absolutePath)
             .directory(instanceDirectory)
             .redirectOutput(File(instanceDirectory, "log.txt"))
             .start()
     }
 
     fun stop() {
-        // start a thread to stop the server so that the main thread does not lag
-        thread {
-            // give the process 10 seconds to shut down
-            thread {
-                process.destroy()
-                process.waitFor()
-            }.join(10000)
-
-            // after which, if the process is still running, force it to shut down
-            if (process.isAlive)
-                process.destroyForcibly()
-        }
+        oService?.let { service.request(it. uuid, "stop", JSONObject()) }
     }
 }

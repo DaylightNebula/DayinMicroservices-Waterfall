@@ -27,7 +27,7 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
             val name = json.getString("name")
             templates.forEach { (_, template) ->
                 template.getNodes()
-                    .filter { it.service?.name == name }
+                    .filter { it.oService?.name == name }
                     .apply { if (isNotEmpty()) success = true }
                     .forEach { template.removeNode(it) }
             }
@@ -54,8 +54,8 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
         // get node name for a balanced node for the given template
         val server = if (template != null) {
             val node = template.getBalancedNode()
-            if (node?.service != null) {
-                node.service!!.name
+            if (node?.oService != null) {
+                node.oService!!.name
             } else false
         } else null
 
@@ -69,7 +69,7 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
         val template = templates[json.optString("template", "")]
 
         // get nodes from the template
-        val info = template?.getNodes()?.mapNotNull { it.service?.name } ?: listOf()
+        val info = template?.getNodes()?.mapNotNull { it.oService?.name } ?: listOf()
 
         // send back result
         JSONObject().put("servers", info)
@@ -83,8 +83,15 @@ val service = Microservice("node-manager", endpoints = hashMapOf(
 ), onServiceOpen = { json ->
     // if this is server node, add it to its respective node
     val serverPort = json.optInt("serverPort", -1)
-    if (serverPort != -1 && json.has("template"))
-        templates[json.getString("template")]?.getNode(serverPort)?.let { it.service = OtherMicroservice(json); it.info = json; it.running = true; logger.info("Node ${it.serverPort} connected!") }
+    if (serverPort != -1 && json.has("template")) {
+        val template = templates[json.getString("template")] ?: return@Microservice
+        template.getNode(serverPort)?.let {
+            it.oService = OtherMicroservice(json)
+            it.info = json
+            it.running = true
+            logger.info("Node ${it.serverPort} connected!")
+        } ?: template.newNode(OtherMicroservice(json), json)
+    }
 }, onServiceClose = { json ->
     // get given template and mark the node with the given port as closed
     val serverPort = json.optInt("serverPort", -1)

@@ -41,6 +41,10 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
                     else
                         JSONArray().putAll(Bukkit.getOnlinePlayers().map { it.uniqueId })
                 )
+        },
+        "stop" to { _ ->
+            Bukkit.shutdown()
+            JSONObject()
         }
     )
 
