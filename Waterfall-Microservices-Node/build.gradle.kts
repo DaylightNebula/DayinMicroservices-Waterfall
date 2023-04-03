@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.8.20-RC2"
+    kotlin("jvm") version "1.8.20"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
@@ -12,8 +12,8 @@ repositories {
 }
 
 dependencies {
-    // microservices
-    implementation(project(":Waterfall-Microservices-Core"))
+    implementation(files("../libs/DaylinMicroservices-Core-0.1.jar"))
+    implementation("com.orbitz.consul:consul-client:1.5.3")
 
     // json
     implementation("org.json:json:20230227")

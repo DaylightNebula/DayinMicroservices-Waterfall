@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.8.20-RC2"
+    kotlin("jvm") version "1.8.20"
 }
 
 group = "waterfall.microservices"
@@ -10,8 +10,7 @@ repositories {
 }
 
 dependencies {
-    // microservices
-    implementation(project(":Waterfall-Microservices-Core"))
+    implementation(files("../libs/DaylinMicroservices-Core-0.1.jar"))
     implementation("com.orbitz.consul:consul-client:1.5.3")
 
     // json
@@ -22,8 +21,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.4.6")
 
     // testing
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
 tasks.getByName<Test>("test") {

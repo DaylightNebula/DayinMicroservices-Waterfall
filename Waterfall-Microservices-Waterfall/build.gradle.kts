@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.8.20-RC2"
+    kotlin("jvm") version "1.8.20"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
@@ -9,11 +9,12 @@ version = "0.0.1"
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
+    maven("https://jitpack.io/")
 }
 
+// https://github.com/DaylightNebula/DaylinMicroservices/releases/download/0.1/DaylinMicroservices-Core-0.1.jar
 dependencies {
-    // microservices
-    implementation(project(":Waterfall-Microservices-Core"))
+    implementation(files("../libs/DaylinMicroservices-Core-0.1.jar"))
     implementation("com.orbitz.consul:consul-client:1.5.3")
 
     // json
@@ -27,8 +28,8 @@ dependencies {
     implementation("io.github.waterfallmc:waterfall-api:1.19-R0.1-SNAPSHOT")
 
     // testing
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
 tasks.getByName<Test>("test") {

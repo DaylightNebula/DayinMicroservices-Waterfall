@@ -1,6 +1,7 @@
 package waterfall.microservices.waterfall
 
 import com.orbitz.consul.model.health.Service
+import daylightnebula.daylinmicroservices.Microservice
 import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.config.ServerInfo
@@ -9,10 +10,8 @@ import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.api.plugin.Plugin
 import net.md_5.bungee.event.EventHandler
 import org.json.JSONObject
-import waterfall.microservices.Microservice
 import java.net.InetSocketAddress
 import java.util.*
-import kotlin.math.log
 
 class WaterfallPlugin: Plugin(), Listener {
     // endpoints that can be edited by other plugins before service is set up
