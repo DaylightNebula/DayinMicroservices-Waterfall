@@ -1,5 +1,8 @@
 package waterfall.microservices.node
 
+import daylightnebula.daylinmicroservices.Microservice
+import daylightnebula.daylinmicroservices.MicroserviceConfig
+import daylightnebula.daylinmicroservices.requests.*
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -9,7 +12,6 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.java.JavaPlugin
 import org.json.JSONArray
 import org.json.JSONObject
-import waterfall.microservices.Microservice
 import java.io.File
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -55,7 +57,13 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
     // create microservice on start
     override fun onEnable() {
         Bukkit.getPluginManager().registerEvents(this, this)
-        service = Microservice("node-${rootDir.name}", listOf("spigot"), endpoints = endpoints)
+        service = Microservice(
+            MicroserviceConfig(
+                "node-${rootDir.name}",
+                listOf("spigot")
+            ),
+            endpoints = endpoints
+        )
         service.start()
         println("Started service named ${service.name}")
     }
@@ -73,7 +81,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
             .put("node", rootDir.name)
             .put("serviceUUID", service.uuid)
             .put("player", event.player.getJsonInfo())
-        service.request("node-manager", "player_join", data)
+        service.requestByName("node-manager", "player_join", data)
     }
 
     // when a player leaves this node, ping all services with a quit endpoint telling them that the player left this node
@@ -84,14 +92,14 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
             .put("node", rootDir.name)
             .put("serviceUUID", service.uuid)
             .put("player", event.player.getJsonInfo())
-        service.request("node-manager", "player_quit", data)
+        service.requestByName("node-manager", "player_quit", data)
     }
 
     fun movePlayerToServer(server: String): CompletableFuture<Boolean> {
         val future = CompletableFuture<Boolean>()
 
         // call move player, if success, mark future complete
-        service.request("waterfall", "move_player", JSONObject().put("server", server))?.whenComplete { json, _ ->
+        service.requestByName("waterfall", "move_player", JSONObject().put("server", server))?.whenComplete { json, _ ->
             future.complete(json.optBoolean("success", false))
         } ?: future.complete(false)
 
@@ -102,7 +110,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
         val future = CompletableFuture<Boolean>()
 
         // ask the node manager for the server
-        service.request("node-manager", "get_node_from_template", JSONObject("template", template))?.whenComplete { json, _ ->
+        service.requestByName("node-manager", "get_node_from_template", JSONObject("template", template))?.whenComplete { json, _ ->
             // if the request succeeded, move the player, otherwise, just complete false
             val success = json.optBoolean("success", false)
             if (success) {
@@ -125,7 +133,7 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
         val future = CompletableFuture<Boolean>()
 
         // ask the waterfall service for player info
-        service.request("waterfall", "get_player_info", json)?.whenComplete { json, _ ->
+        service.requestByName("waterfall", "get_player_info", json)?.whenComplete { json, _ ->
             // get the server node from the input json
             val server = json.optString("node", "")
 

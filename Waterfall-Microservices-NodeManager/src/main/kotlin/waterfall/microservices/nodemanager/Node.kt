@@ -1,12 +1,13 @@
 package waterfall.microservices.nodemanager
 
 import com.orbitz.consul.model.health.Service
+import daylightnebula.daylinmicroservices.requests.request
+import daylightnebula.daylinmicroservices.requests.requestByName
 import org.json.JSONObject
 import java.io.File
 import java.net.ServerSocket
 import java.util.*
 import kotlin.random.Random
-import kotlin.time.Duration.Companion.milliseconds
 
 class Node(
     val template: Template,
@@ -31,7 +32,7 @@ class Node(
             setService(nodeService!!) // just trust me
             logger.info("Received node ${nodeService!!.service}, requesting info...")
             // get info
-            service.request(nodeService!!.service, "info", JSONObject())?.whenComplete { json, _ ->
+            service.request(nodeService!!, "info", JSONObject())?.whenComplete { json, _ ->
                 info = json
                 players.addAll(info!!.getJSONArray("players").map { UUID.fromString(it as String) })
                 logger.info("Received info from node ${nodeService!!.service}")
@@ -104,12 +105,12 @@ class Node(
     }
 
     fun stop() {
-        nodeService?.service?.let { service.request(it, "stop", JSONObject()) }
+        nodeService?.service?.let { service.requestByName(it, "stop", JSONObject()) }
     }
 
     private fun updateRecommended() {
         // if I am the recommended node and this template is default, send set initial node packet to waterfall
         if (template.defaultTemplate && template.getBalancedNode() == this && nodeService != null)
-            service.request("waterfall", "set_intial_node", JSONObject().put("server", nodeService!!.service))
+            service.requestByName("waterfall", "set_intial_node", JSONObject().put("server", nodeService!!.service))
     }
 }

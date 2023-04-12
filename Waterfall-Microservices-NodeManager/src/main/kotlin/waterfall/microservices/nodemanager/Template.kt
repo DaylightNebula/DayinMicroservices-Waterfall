@@ -1,9 +1,9 @@
 package waterfall.microservices.nodemanager
 
 import com.orbitz.consul.model.health.Service
+import daylightnebula.daylinmicroservices.loopingThread
 import mu.KotlinLogging
 import org.json.JSONObject
-import waterfall.microservices.loopingThread
 import java.io.File
 
 class Template(

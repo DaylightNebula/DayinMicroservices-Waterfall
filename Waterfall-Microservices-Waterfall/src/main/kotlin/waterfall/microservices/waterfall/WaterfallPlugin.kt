@@ -2,6 +2,8 @@ package waterfall.microservices.waterfall
 
 import com.orbitz.consul.model.health.Service
 import daylightnebula.daylinmicroservices.Microservice
+import daylightnebula.daylinmicroservices.MicroserviceConfig
+import daylightnebula.daylinmicroservices.requests.request
 import net.md_5.bungee.api.ProxyServer
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.config.ServerInfo
@@ -18,7 +20,7 @@ class WaterfallPlugin: Plugin(), Listener {
     private lateinit var service: Microservice
     private val onServiceOpen: (serv: Service) -> Unit = { serv -> newNode(serv) }
     private val onServiceClose: (serv: Service) -> Unit = { serv -> removeNode(serv) }
-    val endpoints = hashMapOf<String, (json: JSONObject) -> JSONObject>(
+    private val endpoints = hashMapOf<String, (json: JSONObject) -> JSONObject>(
         "move_player" to { json ->
             // get player by name or uuid, null if neither
             val player =
@@ -93,7 +95,13 @@ class WaterfallPlugin: Plugin(), Listener {
         ProxyServer.getInstance().pluginManager.registerListener(this, this)
 
         // setup service
-        service = Microservice("waterfall", tags = listOf("waterfall"), endpoints = endpoints, onServiceOpen = onServiceOpen, onServiceClose = onServiceClose)
+        service = Microservice(
+            MicroserviceConfig(
+                "waterfall",
+                tags = listOf("waterfall")
+            ),
+            endpoints = endpoints, onServiceOpen = onServiceOpen, onServiceClose = onServiceClose
+        )
         service.start()
     }
 
@@ -106,7 +114,7 @@ class WaterfallPlugin: Plugin(), Listener {
         if (!serv.tags.contains("spigot")) return
 
         // send info request
-        service.request(serv.service, "info", JSONObject())?.whenComplete { json, error ->
+        service.request(serv, "info", JSONObject()).whenComplete { json, _ ->
             // create new server info
             val address = InetSocketAddress(serv.address, json.getInt("serverPort"))
             val serverInfo = ProxyServer.getInstance().constructServerInfo(serv.service, address, "", false)

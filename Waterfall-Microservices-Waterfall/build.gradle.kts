@@ -14,7 +14,7 @@ repositories {
 
 // https://github.com/DaylightNebula/DaylinMicroservices/releases/download/0.1/DaylinMicroservices-Core-0.1.jar
 dependencies {
-    implementation(files("../libs/DaylinMicroservices-Core-0.1.jar"))
+    implementation(files("../libs/DaylinMicroservices-Core-0.2.jar"))
     implementation("com.orbitz.consul:consul-client:1.5.3")
 
     // json

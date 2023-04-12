@@ -4,24 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Finished node service">
-      <change afterPath="$PROJECT_DIR$/libs/CLIInterface-0.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/DaylinMicroservices-Core-0.1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Moved micorservices somewhere else">
+      <change afterPath="$PROJECT_DIR$/libs/DaylinMicroservices-CLIInterface-0.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-CLIInterface/build.gradle.kts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-CLIInterface/src/main/kotlin/waterfall/microservices/cliinterface/CLIInterface.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/build.gradle.kts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Microservice.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Requester.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Tester.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/main/kotlin/waterfall/microservices/Updater.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Core/src/test/kotlin/Tester.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/CLIInterface-0.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/DaylinMicroservices-Core-0.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/DaylinMicroservices-Core-0.1.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +41,12 @@
         <task path="$PROJECT_DIR$/Waterfall-Microservices-Node">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/Waterfall-Microservices-NodeManager">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
@@ -55,20 +57,20 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
-                <item name="Waterfall-Microservices-Node" type="2d1252cf:ModuleNode" />
+                <item name="Waterfall-Microservices-NodeManager" type="2d1252cf:ModuleNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
-                <item name="Waterfall-Microservices-Node" type="2d1252cf:ModuleNode" />
+                <item name="Waterfall-Microservices-NodeManager" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
-                <item name="Waterfall-Microservices-Node" type="2d1252cf:ModuleNode" />
+                <item name="Waterfall-Microservices-NodeManager" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="shadow" type="c8890929:TasksNode$1" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -86,7 +88,7 @@
                 <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
                 <item name="Waterfall-Microservices-Waterfall" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="shadow" type="c8890929:TasksNode$1" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -104,6 +106,9 @@
         <option value="Kotlin File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="5b5vls7i" />
@@ -125,14 +130,22 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "corretto-18",
     "last_opened_file_path": "D:/javadev/Waterfall-Microservices/libs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -156,11 +169,11 @@
       <recent name="waterfall.microservices" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.NodeManagerKt">
-    <configuration name="Waterfall-Microservices:Waterfall-Microservices-Node [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]">
+    <configuration name="Waterfall-Microservices [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/Waterfall-Microservices-Node" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" />
         <option name="taskDescriptions">
@@ -168,7 +181,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="jar" />
+            <option value="build" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -176,6 +189,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
     <configuration name="Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -197,6 +211,29 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="Waterfall-Microservices:Waterfall-Microservices-NodeManager [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Waterfall-Microservices-NodeManager" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
     <configuration name="Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -218,6 +255,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
     <configuration name="Waterfall-Microservices:Waterfall-Microservices-Waterfall [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -239,6 +277,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
     <configuration name="CLIInterfaceKt" type="JetRunConfigurationType" singleton="false" nameIsGenerated="true">
@@ -256,20 +295,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TesterKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="waterfall.microservices.TesterKt" />
-      <module name="Waterfall-Microservices.Waterfall-Microservices-Core.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [shadowJar]" />
-        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]" />
-        <item itemvalue="Kotlin.TesterKt" />
-        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [jar]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]" />
+        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-NodeManager [build]" />
+        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]" />
+        <item itemvalue="Gradle.Waterfall-Microservices [build]" />
+        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [shadowJar]" />
       </list>
     </recent_temporary>
   </component>
@@ -281,6 +313,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679936843752</updated>
+      <workItem from="1681328279538" duration="547000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1679939115265</created>
@@ -499,8 +532,18 @@
       <option name="project" value="LOCAL" />
       <updated>1680475782998</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Moved micorservices somewhere else">
+      <created>1680486153110</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1680486153110</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -514,7 +557,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Finished microservices" />
     <MESSAGE value="Timeouts" />
     <MESSAGE value="Some file restructuring and setup for making waterfall service" />
     <MESSAGE value="Created all necessary gradle modules and updated their dependencies as necessary" />
@@ -539,6 +581,7 @@
     <MESSAGE value="Node manager working again" />
     <MESSAGE value="More bug fixes" />
     <MESSAGE value="Finished node service" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished node service" />
+    <MESSAGE value="Moved micorservices somewhere else" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved micorservices somewhere else" />
   </component>
 </project>

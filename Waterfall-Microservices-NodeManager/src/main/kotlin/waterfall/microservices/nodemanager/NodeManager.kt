@@ -1,10 +1,13 @@
 package waterfall.microservices.nodemanager
 
 import com.orbitz.consul.model.health.Service
+import daylightnebula.daylinmicroservices.Microservice
+import daylightnebula.daylinmicroservices.MicroserviceConfig
+import daylightnebula.daylinmicroservices.requests.request
+import daylightnebula.daylinmicroservices.requests.requestByUUID
 import mu.KotlinLogging
 import org.json.JSONArray
 import org.json.JSONObject
-import waterfall.microservices.Microservice
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
@@ -14,7 +17,7 @@ val onServiceOpen: (serv: Service) -> Unit = { serv ->
     if (serv.tags.contains("spigot")) {
         println("Spigot service created ${serv.service}")
         // request the nodes info
-        service.request(serv.service, "info", JSONObject())?.whenComplete { json, _ ->
+        service.requestByUUID(UUID.fromString(serv.id), "info", JSONObject())?.whenComplete { json, _ ->
             val templateName = json.getString("template")
             val port = json.getInt("serverPort")
             val template = templates[templateName]
@@ -36,7 +39,12 @@ val onServiceClose: (serv: Service) -> Unit = { serv ->
         templates.values.forEach { template -> template.getNodes().forEach { node -> if (node.nodeService == serv) node.running = false } }
     }
 }
-val service = Microservice("node-manager", listOf("node-manager"), endpoints = hashMapOf(
+val service = Microservice(
+    MicroserviceConfig(
+        "node-manager",
+        listOf("node-manager")
+    ),
+    endpoints = hashMapOf(
     // endpoint ot create a new node of the given template
     "create_node" to { json ->
         val template = templates[json.optString("template", "")]
