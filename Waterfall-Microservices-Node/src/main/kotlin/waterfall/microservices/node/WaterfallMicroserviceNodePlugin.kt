@@ -129,11 +129,11 @@ class WaterfallMicroserviceNodePlugin: JavaPlugin(), Listener {
     // functions to move a player to another player
     fun movePlayerToPlayer(playerName: String): CompletableFuture<Boolean> = movePlayerToPlayer(JSONObject().put("name", playerName))
     fun movePlayerToPlayer(uuid: UUID): CompletableFuture<Boolean> = movePlayerToPlayer(JSONObject().put("uuid", uuid))
-    private fun movePlayerToPlayer(json: JSONObject): CompletableFuture<Boolean> {
+    private fun movePlayerToPlayer(requestJson: JSONObject): CompletableFuture<Boolean> {
         val future = CompletableFuture<Boolean>()
 
         // ask the waterfall service for player info
-        service.requestByName("waterfall", "get_player_info", json)?.whenComplete { json, _ ->
+        service.requestByName("waterfall", "get_player_info", requestJson)?.whenComplete { json, _ ->
             // get the server node from the input json
             val server = json.optString("node", "")
 

@@ -20,8 +20,7 @@ val onServiceOpen: (serv: Service) -> Unit = { serv ->
         service.requestByUUID(UUID.fromString(serv.id), "info", JSONObject())?.whenComplete { json, _ ->
             val templateName = json.getString("template")
             val port = json.getInt("serverPort")
-            val template = templates[templateName]
-            template?.let { template ->
+            templates[templateName]?.let { template ->
                 template.getNode(port)?.let {
                     it.setService(serv)
                     it.info = json

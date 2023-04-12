@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Moved micorservices somewhere else">
-      <change afterPath="$PROJECT_DIR$/libs/DaylinMicroservices-CLIInterface-0.2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="e31972f3-ecf2-44e9-9bbd-fc630c98d051" name="Changes" comment="Update to DaylinMicroservices 0.2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Node/src/main/kotlin/waterfall/microservices/node/WaterfallMicroserviceNodePlugin.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Node.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/NodeManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-NodeManager/src/main/kotlin/waterfall/microservices/nodemanager/Template.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Waterfall-Microservices-Waterfall/src/main/kotlin/waterfall/microservices/waterfall/WaterfallPlugin.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/CLIInterface-0.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/DaylinMicroservices-Core-0.2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/DaylinMicroservices-Core-0.1.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +44,23 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Waterfall-Microservices" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="publishing" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -169,7 +177,7 @@
       <recent name="waterfall.microservices" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]">
+  <component name="RunManager" selected="Gradle.Waterfall-Microservices [build]">
     <configuration name="Waterfall-Microservices [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -182,6 +190,28 @@
         <option name="taskNames">
           <list>
             <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="Waterfall-Microservices [publishToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="publishToMavenLocal" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -258,28 +288,6 @@
       <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="Waterfall-Microservices:Waterfall-Microservices-Waterfall [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/Waterfall-Microservices-Waterfall" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="shadowJar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>false</ForceTestExec>
-      <method v="2" />
-    </configuration>
     <configuration name="CLIInterfaceKt" type="JetRunConfigurationType" singleton="false" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="waterfall.microservices.cliinterface.CLIInterfaceKt" />
       <module name="Waterfall-Microservices.Waterfall-Microservices-CLIInterface.main" />
@@ -297,11 +305,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Waterfall-Microservices [build]" />
+        <item itemvalue="Gradle.Waterfall-Microservices [publishToMavenLocal]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [build]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-NodeManager [build]" />
         <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Node [shadowJar]" />
-        <item itemvalue="Gradle.Waterfall-Microservices [build]" />
-        <item itemvalue="Gradle.Waterfall-Microservices:Waterfall-Microservices-Waterfall [shadowJar]" />
       </list>
     </recent_temporary>
   </component>
@@ -313,7 +321,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1679936843752</updated>
-      <workItem from="1681328279538" duration="547000" />
+      <workItem from="1681328279538" duration="4223000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1679939115265</created>
@@ -539,7 +547,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680486153110</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Update to DaylinMicroservices 0.2">
+      <created>1681328855138</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1681328855138</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -557,7 +572,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Timeouts" />
     <MESSAGE value="Some file restructuring and setup for making waterfall service" />
     <MESSAGE value="Created all necessary gradle modules and updated their dependencies as necessary" />
     <MESSAGE value="Updated gitignore" />
@@ -582,6 +596,7 @@
     <MESSAGE value="More bug fixes" />
     <MESSAGE value="Finished node service" />
     <MESSAGE value="Moved micorservices somewhere else" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved micorservices somewhere else" />
+    <MESSAGE value="Update to DaylinMicroservices 0.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update to DaylinMicroservices 0.2" />
   </component>
 </project>

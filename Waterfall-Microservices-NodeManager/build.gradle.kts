@@ -7,10 +7,11 @@ version = "0.0.1"
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io/")
 }
 
 dependencies {
-    implementation(files("../libs/DaylinMicroservices-Core-0.2.jar"))
+    implementation("com.github.DaylightNebula.DaylinMicroservices:DaylinMicroservices-Core:0.2")
     implementation("com.orbitz.consul:consul-client:1.5.3")
 
     // json

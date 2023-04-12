@@ -32,7 +32,7 @@ class Node(
             setService(nodeService!!) // just trust me
             logger.info("Received node ${nodeService!!.service}, requesting info...")
             // get info
-            service.request(nodeService!!, "info", JSONObject())?.whenComplete { json, _ ->
+            service.request(nodeService!!, "info", JSONObject()).whenComplete { json, _ ->
                 info = json
                 players.addAll(info!!.getJSONArray("players").map { UUID.fromString(it as String) })
                 logger.info("Received info from node ${nodeService!!.service}")
