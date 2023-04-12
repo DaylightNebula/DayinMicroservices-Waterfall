@@ -1,0 +1,45 @@
+allprojects {
+    version = "0.1"
+    group = 'com.github.daylightnebula'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    sourceCompatibility = 17
+    targetCompatibility = 17
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId project.group
+                artifactId project.name
+                version project.version
+                from components.java
+
+                pom {
+                    url = 'https://github.com/DaylightNebula/DayinMicroservices-Waterfall'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'DaylightNebula'
+                            name = 'Noah Shaw'
+                            email = 'noah.w.shaw@gmail.com'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

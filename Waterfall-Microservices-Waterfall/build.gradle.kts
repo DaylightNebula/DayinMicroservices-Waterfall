@@ -3,9 +3,6 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
-group = "waterfall.microservices"
-version = "0.0.1"
-
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
@@ -13,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.DaylightNebula.DaylinMicroservices:DaylinMicroservices-Core:0.2")
+    implementation("com.github.DaylightNebula.DaylinMicroservices:DaylinMicroservices-Core:0.2.1")
     implementation("io.github.waterfallmc:waterfall-api:1.19-R0.1-SNAPSHOT")
 }
 

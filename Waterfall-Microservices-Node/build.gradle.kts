@@ -1,11 +1,7 @@
 plugins {
-    `maven-publish`
     kotlin("jvm") version "1.8.20"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
-
-group = "waterfall.microservices"
-version = "0.1-alpha"
 
 repositories {
     mavenCentral()
@@ -14,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.DaylightNebula.DaylinMicroservices:DaylinMicroservices-Core:0.2")
+    implementation("com.github.DaylightNebula.DaylinMicroservices:DaylinMicroservices-Core:0.2.1")
     implementation("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 }
 
