@@ -1,0 +1,1 @@
+start docker run -it --rm -p 25577:25577 daylinmicroservices/waterfall

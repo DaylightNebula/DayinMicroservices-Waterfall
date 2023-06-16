@@ -17,3 +17,18 @@ dependencies {
 tasks.getByName<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
     destinationDirectory.set(file("../testwaterfall/plugins"))
 }
+
+//kotlin {
+//    jvmToolchain(17)
+//}
+
+task<Exec>("docker-build") {
+    dependsOn("shadowJar")
+    commandLine("docker", "build", ".", "-t", "daylinmicroservices/waterfall")
+    commandLine("docker", "image", "prune", "-f")
+}
+
+task<Exec>("docker-run") {
+    dependsOn("docker-build")
+    commandLine("./run-docker.bat")
+}

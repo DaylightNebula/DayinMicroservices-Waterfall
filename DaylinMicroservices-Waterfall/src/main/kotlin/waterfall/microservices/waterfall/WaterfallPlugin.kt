@@ -15,7 +15,7 @@ import org.json.JSONObject
 import java.net.InetSocketAddress
 import java.util.*
 
-class WaterfallPlugin: Plugin(), Listener {
+class  WaterfallPlugin: Plugin(), Listener {
     // endpoints that can be edited by other plugins before service is set up
     private lateinit var service: Microservice
     private val onServiceOpen: (serv: Service) -> Unit = { serv -> newNode(serv) }

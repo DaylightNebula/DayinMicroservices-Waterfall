@@ -4,17 +4,14 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="openjdk-18" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Waterfall-Microservices-Node" />
-            <option value="$PROJECT_DIR$/Waterfall-Microservices-NodeManager" />
-            <option value="$PROJECT_DIR$/Waterfall-Microservices-Waterfall" />
+            <option value="$PROJECT_DIR$/DaylinMicroservices-Node" />
+            <option value="$PROJECT_DIR$/DaylinMicroservices-NodeManager" />
+            <option value="$PROJECT_DIR$/DaylinMicroservices-Waterfall" />
           </set>
         </option>
       </GradleProjectSettings>
